@@ -7,7 +7,17 @@
     "stage-0",
     "react"
   ],
-  "plugins": ["add-module-exports", "dynamic-import-webpack"],
+  "plugins": [["import", [{
+    "libraryName": "material-ui",
+    "libraryDirectory": "",
+    "camel2DashComponentName": false
+  }, {
+    "libraryName": "react-router",
+    "libraryDirectory": ""
+  }, {
+    "libraryName": "react-router-dom",
+    "libraryDirectory": ""
+  }]],"add-module-exports", "dynamic-import-webpack"],
   "env": {
     "production": {
       "presets": ["react-optimize"],

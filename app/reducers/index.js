@@ -2,10 +2,19 @@
 import { combineReducers } from 'redux';
 import { routerReducer as router } from 'react-router-redux';
 import counter from './counter';
+import language from './language';
+
+const actionHandler = (reducer, reg) => (state = reducer(undefined, {}), action) => {
+  if (action.type.match(reg)) {
+    return reducer(state, action);
+  }
+  return state;
+};
 
 const rootReducer = combineReducers({
-  counter,
-  router,
+  counter: actionHandler(counter, /COUNTER$/),
+  router: actionHandler(router, /^@@router/),
+  language: actionHandler(language, /^language/)
 });
 
 export default rootReducer;

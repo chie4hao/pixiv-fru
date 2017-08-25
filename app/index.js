@@ -4,8 +4,12 @@ import { AppContainer } from 'react-hot-loader';
 import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
 import './app.global.css';
+import languageContainer from './reducers/language/container';
+import './utils/config';
 
-const store = configureStore();
+const store = configureStore({
+  language: languageContainer[localStorage.language]
+});
 
 render(
   <AppContainer>
