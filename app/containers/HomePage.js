@@ -1,11 +1,19 @@
 // @flow
-import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { createSelector } from 'reselect';
+
 import Home from '../components/Home';
 
-export default class HomePage extends Component {
-  render() {
-    return (
-      <Home />
-    );
-  }
+function mapStateToProps(state) {
+  return {
+    HomePage: state.language.HomePage
+  };
 }
+/*
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(IndexActions, dispatch);
+}
+*/
+
+export default connect(mapStateToProps)(Home);

@@ -1,9 +1,9 @@
-const {
-  language = 'english',
-  downloadOptions = 3,
-  themeOptions
-} = localStorage;
+import { initialState as initialSearchParams } from '../reducers/HomePage/searchParams';
 
 if (!localStorage.getItem('language')) {
-  localStorage.language = 'english';
+  localStorage.language = 'chs';
+}
+
+if (!localStorage.getItem('searchParams')) {
+  localStorage.searchParams = JSON.stringify(initialSearchParams);
 }

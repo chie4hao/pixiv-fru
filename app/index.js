@@ -8,7 +8,10 @@ import languageContainer from './reducers/language/container';
 import './utils/config';
 
 const store = configureStore({
-  language: languageContainer[localStorage.language]
+  language: languageContainer[localStorage.language],
+  HomePage: {
+    searchParams: JSON.parse(localStorage.searchParams)
+  }
 });
 
 render(

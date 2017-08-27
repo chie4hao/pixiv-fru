@@ -13,7 +13,7 @@ import Routes from '../routes';
 // injectTapEventPlugin();
 const theme = () => {
   const palette = createPalette({
-    type: 'dark', // Switching the dark mode on is a single property value change.
+    type: 'light', // Switching the dark mode on is a single property value change.
   });
   const typography = createTypography(palette, {
     // System font
@@ -26,9 +26,9 @@ const theme = () => {
     typography,
     /*
     overrides: {
-      MuiAppBar: {
+      MuiList: {
         root: {
-          height: 100
+          width: '100%'
         }
       }
     } */

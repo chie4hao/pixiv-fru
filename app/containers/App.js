@@ -42,7 +42,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
     forward: () => void,
     children: Children,
     selected: number,
-    titleName: object
+    titleName: {}
   };
   render() {
     const { historyPush, back, forward, children, selected, titleName } = this.props;
