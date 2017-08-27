@@ -22,7 +22,7 @@ class ConfirmationDialog extends Component {
     searchParamsOpen: boolean,
     searchParamsRequestClose: () => void,
     classes: {},
-    searchParamsChange: (string, value) => void
+    searchParamsChange: (string, string | number | boolean) => void
   }
   state = {
     anchorEl: undefined,
