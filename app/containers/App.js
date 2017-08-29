@@ -73,15 +73,6 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
                 onClick={() => historyPush('/about')}
               />
             </Tabs>
-            {/* <IconButton color="default">
-              <Icon className="fa fa-window-minimize" />
-            </IconButton>
-            <IconButton color="default">
-              <Icon className="fa fa-window-maximize" />
-            </IconButton>
-            <IconButton color="default">
-              <Icon className="fa fa-close" />
-            </IconButton> */}
           </Toolbar>
         </AppBar>
         {children}

@@ -19,7 +19,9 @@ class Home extends Component {
     // const { classes, HomePage } = this.props;
     return (
       <div>
-        <Button onClick={() => this.setState({ searchParamsOpen: true })}>Open simple dialog</Button>
+        <Button onClick={() => this.setState({ searchParamsOpen: true })}>
+          Open simple dialog
+        </Button>
         <SearchParamsDialogs
           searchParamsOpen={this.state.searchParamsOpen}
           searchParamsRequestClose={() => this.setState({ searchParamsOpen: false })}
