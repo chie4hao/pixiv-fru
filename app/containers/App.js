@@ -9,10 +9,12 @@ import BottomNavigation, { BottomNavigationButton } from 'material-ui/BottomNavi
 import Tabs, { Tab } from 'material-ui/Tabs';
 import IconButton from 'material-ui/IconButton';
 import Icon from 'material-ui/Icon';
+import Button from 'material-ui/Button';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createSelector } from 'reselect';
 
+import LoginDialogs from './LoginDialogs';
 import * as IndexActions from '../actions/index';
 
 // const favoritesIcon = <FontIcon>favorite</FontIcon>;
@@ -25,7 +27,7 @@ const getSelected = createSelector(
 function mapStateToProps(state) {
   return {
     selected: getSelected(state),
-    titleName: state.language.title
+    titleName: state.main.settings.language.title
   };
 }
 
@@ -44,18 +46,23 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
     selected: number,
     titleName: {}
   };
+
+  state = {
+    loginDialogsOpen: false
+  };
+
   render() {
     const { historyPush, back, forward, children, selected, titleName } = this.props;
     return (
       <div>
         <AppBar position="static">
           <Toolbar>
-            <IconButton color="default">
+            {/* <IconButton color="default">
               <Icon className="fa fa-arrow-left" onClick={back} />
             </IconButton>
             <IconButton color="default">
               <Icon className="fa fa-arrow-right" onClick={forward} />
-            </IconButton>
+            </IconButton> */}
             <Tabs value={selected} onChange={() => {}} >
               <Tab
                 label={titleName.download}
@@ -73,6 +80,13 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
                 onClick={() => historyPush('/about')}
               />
             </Tabs>
+            <Button onClick={() => this.setState({ loginDialogsOpen: true })}>
+              {titleName.login}
+            </Button>
+            <LoginDialogs
+              searchParamsOpen={this.state.loginDialogsOpen}
+              searchParamsRequestClose={() => this.setState({ loginDialogsOpen: false })}
+            />
           </Toolbar>
         </AppBar>
         {children}

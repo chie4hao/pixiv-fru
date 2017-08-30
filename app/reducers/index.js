@@ -2,7 +2,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer as router } from 'react-router-redux';
 import counter from './counter';
-import language from './language';
+import main from './main';
 import HomePage from './HomePage';
 
 const actionHandler = (reducer, reg) => (state = reducer(undefined, {}), action) => {
@@ -15,7 +15,7 @@ const actionHandler = (reducer, reg) => (state = reducer(undefined, {}), action)
 const rootReducer = combineReducers({
   counter: actionHandler(counter, /COUNTER$/),
   router: actionHandler(router, /^@@router/),
-  language: actionHandler(language, /^language/),
+  main: actionHandler(main, /^main/),
   HomePage: actionHandler(HomePage, /^HomePage/)
 });
 

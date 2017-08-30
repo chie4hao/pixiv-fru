@@ -7,7 +7,7 @@ import Home from '../components/Home';
 
 function mapStateToProps(state) {
   return {
-    HomePage: state.language.HomePage
+    HomePage: state.main.settings.language.HomePage
   };
 }
 /*

@@ -64,4 +64,7 @@ async function login(pixivId, password) {
   return PHPSESSID;
 }
 
-console.log(login('w310930920@gmail.com', '1q2w3e4r'));
+export default async function pixivLogin(username, password) {
+  const a = await login(username, password);
+  return a;
+}

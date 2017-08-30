@@ -11,7 +11,14 @@ const container = {
     title: {
       download: '下载',
       player: '动图',
-      about: '关于'
+      about: '关于',
+      login: '登录',
+      loginDialogs: {
+        username: '用户名',
+        password: '密码',
+        captcha: '验证码',
+        close: '关闭'
+      }
     },
     HomePage: {
       searchParams: '搜索选项',
