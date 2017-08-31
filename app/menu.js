@@ -13,7 +13,7 @@ export default class MenuBuilder {
       this.setupDevelopmentEnvironment();
     }
     this.setupDevelopmentEnvironment();
-    
+
     let template;
 
     if (process.platform === 'darwin') {

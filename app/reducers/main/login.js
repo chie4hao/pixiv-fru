@@ -1,7 +1,10 @@
 export const initialState = {
-  username: 'lsdkfj',
-  password: 'lskdjfl',
-  phpSession: '23452345'
+  username: 'w310930920@gmail.com',
+  password: '1q2w3e4r',
+  captchaOpen: false,
+  captchaSrc: '',
+  captcha: '',
+  PHPSESSID: ''
 };
 
 export default function login(state = initialState, action) {
@@ -10,6 +13,8 @@ export default function login(state = initialState, action) {
       return Object.assign({}, state, {
         [action.param]: action.value
       });
+    case 'main/login/objectChange':
+      return Object.assign({}, state, action.obj);
     default:
       return state;
   }

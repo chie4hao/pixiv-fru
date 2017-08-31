@@ -34,6 +34,7 @@ class LoginDialogs extends Component {
                 label={title.loginDialogs.username}
                 value={login.username}
                 onChange={(event) => loginChange('username', event.target.value)}
+                className={classes.textField}
               />
             </ListItem>
             <ListItem>
@@ -41,12 +42,30 @@ class LoginDialogs extends Component {
                 label={title.loginDialogs.password}
                 value={login.password}
                 onChange={(event) => loginChange('password', event.target.value)}
+                className={classes.textField}                
               />
             </ListItem>
+
+            {login.captchaOpen &&
+            <List>
+              <ListItem>
+                <img src={login.captchaSrc} alt="Error: captcha not find" />
+              </ListItem>
+              <ListItem>
+                <br />
+                <TextField
+                  label={title.loginDialogs.captcha}
+                  value={login.captcha}
+                  onChange={(event) => loginChange('captcha', event.target.value)}
+                  className={classes.textField}
+                />
+              </ListItem>
+            </List>
+            }
           </List>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => loginChunk(login.username, login.password)}>
+          <Button onClick={() => loginChunk(login.username, login.password, login.captcha)}>
             {title.login}
           </Button>
           <Button>
@@ -66,6 +85,9 @@ const muiStyles = theme => ({
     textAlign: 'center',
     marginLeft: 'auto',
     marginRight: 'auto'
+  },
+  textField: {
+    width: 250
   }
 });
 

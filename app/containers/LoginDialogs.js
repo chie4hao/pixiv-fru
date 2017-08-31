@@ -30,12 +30,11 @@ export function loginChunk(username, password) {
     console.log(username, password);
     pixivLogin(username, password).then(a => {
       console.log(a);
-      dispatch(loginChange('username', a));
+      // dispatch(loginChange('username', a));
       return 0;
     }).catch(e => {
       console.log(e);
     });
-    dispatch(loginChange('username', 'l'));
   };
 }
 

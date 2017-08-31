@@ -17,6 +17,8 @@ const store = configureStore({
   }
 });
 
+window.dispatch = store.dispatch;
+
 render(
   <AppContainer>
     <Root store={store} history={history} />
