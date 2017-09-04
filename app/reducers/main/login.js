@@ -1,6 +1,6 @@
 export const initialState = {
   username: 'w310930920@gmail.com',
-  password: '1q2w3e4r',
+  password: '',
   captchaOpen: false,
   captchaSrc: '',
   captcha: '',

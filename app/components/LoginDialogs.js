@@ -42,11 +42,11 @@ class LoginDialogs extends Component {
                 label={title.loginDialogs.password}
                 value={login.password}
                 onChange={(event) => loginChange('password', event.target.value)}
-                className={classes.textField}                
+                className={classes.textField}
               />
             </ListItem>
 
-            {login.captchaOpen &&
+            {/* login.captchaOpen &&
             <List>
               <ListItem>
                 <img src={login.captchaSrc} alt="Error: captcha not find" />
@@ -61,11 +61,11 @@ class LoginDialogs extends Component {
                 />
               </ListItem>
             </List>
-            }
+            */}
           </List>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => loginChunk(login.username, login.password, login.captcha)}>
+          <Button onClick={() => loginChunk(login.username, login.password)}>
             {title.login}
           </Button>
           <Button>

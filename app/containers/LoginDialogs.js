@@ -27,10 +27,8 @@ function loginChange(a, b) {
 
 export function loginChunk(username, password) {
   return (dispatch) => {
-    console.log(username, password);
     pixivLogin(username, password).then(a => {
-      console.log(a);
-      // dispatch(loginChange('username', a));
+      dispatch(loginChange('PHPSESSID', a));
       return 0;
     }).catch(e => {
       console.log(e);
