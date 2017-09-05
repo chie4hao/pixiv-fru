@@ -1,4 +1,5 @@
 export const initialState = {
+  open: false,
   username: 'w310930920@gmail.com',
   password: '',
   captchaOpen: false,

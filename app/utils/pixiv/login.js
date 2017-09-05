@@ -100,7 +100,6 @@ async function login(pixivId, password) {
   console.log(json);
   const loginResPHPSESSID = parse(loginRes.headers.get('set-cookie'), ';').PHPSESSID;
   if (loginResPHPSESSID !== undefined) PHPSESSID = loginResPHPSESSID;
-  console.log(PHPSESSID);
 
   // {"error":false,"message":"","body":{"success":{"return_to":"https://www.pixiv.net/"}}}
   if (json.indexOf('success') !== -1) {
@@ -138,7 +137,7 @@ async function login(pixivId, password) {
   }
   // {"error":false,"message":"","body":{"validation_errors":{"captcha":"请输入正确的pixiv ID或邮箱地址以及密码后进行验证",
   // "lock": "您的帐号因为输入过多错误资料而被封锁了。请稍微等候然后再尝试登录。"}}}
-  throw new Error(`login Error: ${json}`);
+  throw new Error(`Unknown Login Error: ${json}`);
 }
 
 export default async function pixivLogin(username, password, captcha) {

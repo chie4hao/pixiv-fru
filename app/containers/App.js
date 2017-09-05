@@ -13,6 +13,8 @@ import Button from 'material-ui/Button';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createSelector } from 'reselect';
+import Snackbar from 'material-ui/Snackbar';
+import Slide from 'material-ui/transitions/Slide';
 
 import LoginDialogs from './LoginDialogs';
 import * as IndexActions from '../actions/index';
@@ -27,9 +29,11 @@ const getSelected = createSelector(
 function mapStateToProps(state) {
   return {
     selected: getSelected(state),
-    titleName: state.main.settings.language.title
+    titleName: state.main.settings.language.title,
+    snackbars: state.HomePage.snackbars,
   };
 }
+
 
 function mapDispatchToProps(dispatch) {
   return bindActionCreators(IndexActions, dispatch);
@@ -44,17 +48,55 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
     forward: () => void,
     children: Children,
     selected: number,
-    titleName: {}
-  };
-
-  state = {
-    loginDialogsOpen: false
+    titleName: {},
+    snackbars: {},
+    snackbarsClose: () => void,
+    snackbarsOpen: (string) => void,
+    loginChange: (string, boolean) => void
   };
 
   render() {
-    const { historyPush, back, forward, children, selected, titleName } = this.props;
+    const {
+      historyPush,
+      back,
+      forward,
+      children,
+      selected,
+      titleName,
+      snackbars,
+      snackbarsClose,
+      snackbarsOpen,
+      loginChange
+    } = this.props;
     return (
       <div>
+        {/* <Button onClick={() => snackbarsOpen('sdlfkj')}>
+          xianshi
+        </Button> */}
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center',
+          }}
+          open={snackbars.open}
+          autoHideDuration={4e3}
+          onRequestClose={snackbarsClose}
+          transition={<Slide direction="up" />}
+          SnackbarContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={<span id="message-id">{snackbars.message}</span>}
+          action={[
+            <IconButton
+              key="close"
+              aria-label="Close"
+              color="inherit"
+              onClick={snackbarsClose}
+            >
+              <Icon className="fa fa-close" />
+            </IconButton>
+          ]}
+        />
         <AppBar position="static">
           <Toolbar>
             {/* <IconButton color="default">
@@ -80,13 +122,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
                 onClick={() => historyPush('/about')}
               />
             </Tabs>
-            <Button onClick={() => this.setState({ loginDialogsOpen: true })}>
+            <Button onClick={() => loginChange('open', true)}>
               {titleName.login}
             </Button>
-            <LoginDialogs
-              searchParamsOpen={this.state.loginDialogsOpen}
-              searchParamsRequestClose={() => this.setState({ loginDialogsOpen: false })}
-            />
+            <LoginDialogs />
           </Toolbar>
         </AppBar>
         {children}

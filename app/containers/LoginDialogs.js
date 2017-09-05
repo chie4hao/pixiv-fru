@@ -1,6 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+import { batchActions } from 'redux-batched-actions';
 
 import LoginDialogs from '../components/LoginDialogs';
 import pixivLogin from '../utils/pixiv/login';
@@ -25,13 +26,20 @@ function loginChange(a, b) {
   };
 }
 
+function snackbarsOpen(message) {
+  return {
+    type: 'HomePage/snackbars/open',
+    message
+  };
+}
+
 export function loginChunk(username, password) {
   return (dispatch) => {
     pixivLogin(username, password).then(a => {
-      dispatch(loginChange('PHPSESSID', a));
+      dispatch(batchActions([loginChange('PHPSESSID', a), snackbarsOpen(`登录成功，获得PHPSESSID：${a}`), loginChange('open', false)]));
       return 0;
     }).catch(e => {
-      console.log(e);
+      dispatch(snackbarsOpen(e.message));
     });
   };
 }

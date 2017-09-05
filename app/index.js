@@ -6,6 +6,7 @@ import { configureStore, history } from './store/configureStore';
 import './app.global.css';
 import './utils/config';
 import { initialState as initialLogin } from './reducers/main/login';
+import { initialState as initialSnackbars } from './reducers/HomePage/snackbars';
 
 const store = configureStore({
   main: {
@@ -13,7 +14,8 @@ const store = configureStore({
     login: initialLogin
   },
   HomePage: {
-    searchParams: JSON.parse(localStorage.searchParams)
+    searchParams: JSON.parse(localStorage.searchParams),
+    snackbars: initialSnackbars
   }
 });
 

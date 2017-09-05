@@ -15,3 +15,24 @@ export function historyPush(pathname) {
     }
   };
 }
+
+export function snackbarsClose() {
+  return {
+    type: 'HomePage/snackbars/close'
+  };
+}
+
+export function snackbarsOpen(message) {
+  return {
+    type: 'HomePage/snackbars/open',
+    message
+  };
+}
+
+export function loginChange(a, b) {
+  return {
+    type: 'main/login/change',
+    param: a,
+    value: b
+  };
+}

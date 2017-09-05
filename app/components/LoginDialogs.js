@@ -8,8 +8,6 @@ import { withStyles } from 'material-ui/styles';
 
 class LoginDialogs extends Component {
   props: {
-    searchParamsOpen: boolean,
-    searchParamsRequestClose: () => void,
     title: {},
     classes: {},
     login: {},
@@ -18,12 +16,12 @@ class LoginDialogs extends Component {
   };
 
   render() {
-    const { searchParamsOpen, searchParamsRequestClose, title, classes, login, loginChange, loginChunk } = this.props;
+    const { title, classes, login, loginChange, loginChunk } = this.props;
     return (
       <Dialog
-        open={searchParamsOpen}
+        open={login.open}
         transition={Fade}
-        onRequestClose={searchParamsRequestClose}
+        onRequestClose={() => loginChange('open', false)}
       >
         <DialogTitle />
         <div className={classes.pixivIcon} />
@@ -65,10 +63,13 @@ class LoginDialogs extends Component {
           </List>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => loginChunk(login.username, login.password)}>
+          <Button onClick={() => {
+            console.log(loginChunk(login.username, login.password));
+          }}
+          >
             {title.login}
           </Button>
-          <Button>
+          <Button onClick={() => loginChange('open', false)}>
             {title.loginDialogs.close}
           </Button>
         </DialogActions>

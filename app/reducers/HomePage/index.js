@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import download from './download';
+import snackbars from './snackbars';
 import searchParams from './searchParams';
 
 export default combineReducers({
-  download,
+  snackbars,
   searchParams
 });
