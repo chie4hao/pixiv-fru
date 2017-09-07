@@ -7,22 +7,27 @@ const config = require('./config');
 const illustIdToOriginal = require('./illustIdToOriginal');
 
 class DownloadSearch {
-  constructor(arg) {
-    this.searchType = typeof (arg);
+  constructor(searchText, searchParams, downloadSettings) {
+    this.searchType = typeof (searchText);
     if (this.searchType === 'string') {
       const params = {};
       Object.entries(config.searchParams).forEach(([k, v]) => {
-        if (v !== '') params[k] = v;
+        if (v !== '' && k !== 'tagExistsFilter' && k !== 'tagNotExistsFilter') params[k] = v;
       });
+      const tagExistsArray = searchParams.tagExistsFilter.split(' ');
+      const tagNotExistsArray = searchParams.tagNotExistsFilter.split(' ');
+      console.log(tagExistsArray, tagNotExistsArray);
 
-      const tagExists = config.tagExistsFilter.length !== 0 ? ` (${config.tagExistsFilter.join(' OR ')})` : '';
-      const tagNotExists = config.tagNotExistsFilter.length !== 0 ? ` -${config.tagNotExistsFilter.join(' -')}` : '';
+      const tagExists = tagExistsArray.length !== 0 ? ` (${tagExistsArray.join(' OR ')})` : '';
+      const tagNotExists = tagNotExistsArray.length !== 0 ? ` -${tagNotExistsArray.join(' -')}` : '';
+      console.log(tagExists, tagNotExists);
 
-      params.word = `${arg}${tagExists}${tagNotExists}`;
+      params.word = `${searchText}${tagExists}${tagNotExists}`;
 
       this.searchUrl = `https://www.pixiv.net/search.php?${querystring.stringify(params)}&p=`;
+      console.log(this.searchUrl);
     } else if (this.searchType === 'number') {
-      this.searchUrl = `https://www.pixiv.net/member_illust.php?id=${arg}&type=all&p=`;
+      this.searchUrl = `https://www.pixiv.net/member_illust.php?id=${searchText}&type=all&p=`;
     } else throw new TypeError(`The arg type '${this.searchType}' unaccepted`);
   }
 
@@ -121,4 +126,4 @@ class DownloadSearch {
 
 const pixivDownload = arg => new DownloadSearch(arg).begin();
 
-module.exports = { pixivDownload, pixivDownloadIllustId: illustIdToOriginal };
+module.exports = { pixivDownload, pixivDownloadIllustId: illustIdToOriginal, DownloadSearch };

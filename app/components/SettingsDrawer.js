@@ -12,7 +12,7 @@ import { withStyles } from 'material-ui/styles';
 class SettingsDrawer extends Component {
   props: {
     settings: {},
-    SettingsDrawer: {},
+    settingsDrawer: {},
     open: boolean,
     onRequestClose: () => void,
     settingsChange: () => void,
@@ -22,7 +22,7 @@ class SettingsDrawer extends Component {
   render() {
     const {
       settings,
-      SettingsDrawer,
+      settingsDrawer,
       open,
       onRequestClose,
       settingsChange,
@@ -38,13 +38,13 @@ class SettingsDrawer extends Component {
         >
           <div>
             <List
-              subheader={<ListSubheader>{SettingsDrawer.downloadSettingsHeader}</ListSubheader>}
+              subheader={<ListSubheader>{settingsDrawer.downloadSettingsHeader}</ListSubheader>}
               className={classes.list}
             >
               <ListItem>
                 <TextField
-                  label={SettingsDrawer.PHPSESSID}
-                  value={settings.PHPSESSID}
+                  label={settingsDrawer.PHPSESSID}
+                  value={settings.downloadSettings.PHPSESSID}
                   onChange={(event) => settingsChange('PHPSESSID', event.target.value)}
                   fullWidth
                   margin="normal"
@@ -53,8 +53,8 @@ class SettingsDrawer extends Component {
               <ListItem>
                 <TextField
                   type="number"
-                  label={SettingsDrawer.HtmlGetCount}
-                  value={settings.HtmlGetCount}
+                  label={settingsDrawer.HtmlGetCount}
+                  value={settings.downloadSettings.HtmlGetCount}
                   className={classes.textField}
                   onChange={(event) => settingsChange('HtmlGetCount', event.target.value)}
                   margin="normal"
@@ -62,8 +62,8 @@ class SettingsDrawer extends Component {
                 <div className={classes.sizeLabel} />
                 <TextField
                   type="number"
-                  label={SettingsDrawer.OriginalGetCount}
-                  value={settings.OriginalGetCount}
+                  label={settingsDrawer.OriginalGetCount}
+                  value={settings.downloadSettings.OriginalGetCount}
                   className={classes.textField}
                   onChange={(event) => settingsChange('OriginalGetCount', event.target.value)}
                   margin="normal"
@@ -72,8 +72,8 @@ class SettingsDrawer extends Component {
               <ListItem>
                 <TextField
                   type="number"
-                  label={SettingsDrawer.htmlGetTimeout}
-                  value={settings.htmlGetTimeout}
+                  label={settingsDrawer.htmlGetTimeout}
+                  value={settings.downloadSettings.htmlGetTimeout}
                   className={classes.textField}
                   onChange={(event) => settingsChange('htmlGetTimeout', event.target.value)}
                   margin="normal"
@@ -81,8 +81,8 @@ class SettingsDrawer extends Component {
                 <div className={classes.sizeLabel} />
                 <TextField
                   type="number"
-                  label={SettingsDrawer.originalOneGetTimeOut}
-                  value={settings.originalOneGetTimeOut}
+                  label={settingsDrawer.originalOneGetTimeOut}
+                  value={settings.downloadSettings.originalOneGetTimeOut}
                   className={classes.textField}
                   onChange={(event) => settingsChange('originalOneGetTimeOut', event.target.value)}
                   margin="normal"
@@ -91,8 +91,8 @@ class SettingsDrawer extends Component {
               <ListItem>
                 <TextField
                   type="number"
-                  label={SettingsDrawer.htmlGetRetransmissionCount}
-                  value={settings.htmlGetRetransmissionCount}
+                  label={settingsDrawer.htmlGetRetransmissionCount}
+                  value={settings.downloadSettings.htmlGetRetransmissionCount}
                   className={classes.textField}
                   onChange={(event) => settingsChange('htmlGetRetransmissionCount', event.target.value)}
                   margin="normal"
@@ -100,8 +100,8 @@ class SettingsDrawer extends Component {
                 <div className={classes.sizeLabel} />
                 <TextField
                   type="number"
-                  label={SettingsDrawer.originalOneRetransmissionCount}
-                  value={settings.originalOneRetransmissionCount}
+                  label={settingsDrawer.originalOneRetransmissionCount}
+                  value={settings.downloadSettings.originalOneRetransmissionCount}
                   className={classes.textField}
                   onChange={(event) => settingsChange('originalOneRetransmissionCount', event.target.value)}
                   margin="normal"
@@ -111,33 +111,33 @@ class SettingsDrawer extends Component {
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={settings.OriginModel}
+                      checked={settings.downloadSettings.OriginModel}
                       onChange={(event, checked) => settingsChange('OriginModel', checked)}
                     />
                 }
-                  label={SettingsDrawer.OriginModel}
+                  label={settingsDrawer.OriginModel}
                 />
                 <div className={classes.formControlLabel} />
                 <div className={classes.formControlLabel} />
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={settings.mangaModel}
+                      checked={settings.downloadSettings.mangaModel}
                       onChange={(event, checked) => settingsChange('mangaModel', checked)}
                     />
                 }
-                  label={SettingsDrawer.mangaModel}
+                  label={settingsDrawer.mangaModel}
                 />
               </ListItem>
               <ListItem>
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={settings.playerModel}
+                      checked={settings.downloadSettings.playerModel}
                       onChange={(event, checked) => settingsChange('playerModel', checked)}
                     />
                 }
-                  label={SettingsDrawer.playerModel}
+                  label={settingsDrawer.playerModel}
                 />
               </ListItem>
             </List>

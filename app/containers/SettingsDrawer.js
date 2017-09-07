@@ -11,7 +11,7 @@ const getSmodeSelected = createSelector(
 function mapStateToProps(state) {
   return {
     settings: state.main.settings,
-    SettingsDrawer: state.main.settings.language.SettingsDrawer
+    settingsDrawer: state.main.settings.language.SettingsDrawer
   };
 }
 

@@ -184,7 +184,7 @@
     "electron-debug": "^1.2.0",
     "font-awesome": "^4.7.0",
     "history": "^4.6.3",
-    "material-ui": "^1.0.0-beta.5",
+    "material-ui": "^1.0.0-beta.8",
     "node-fetch": "^1.7.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",

@@ -42,6 +42,7 @@ const container = {
 
     },
     HomePage: {
+      searchTextField: '搜索内容',
       searchParams: '搜索选项',
       searchTarget: {
         name: '搜索对象',
