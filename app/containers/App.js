@@ -17,6 +17,7 @@ import Snackbar from 'material-ui/Snackbar';
 import Slide from 'material-ui/transitions/Slide';
 
 import LoginDialogs from './LoginDialogs';
+import SettingsDrawer from './SettingsDrawer';
 import * as IndexActions from '../actions/index';
 
 // const favoritesIcon = <FontIcon>favorite</FontIcon>;
@@ -55,6 +56,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
     loginChange: (string, boolean) => void
   };
 
+  state = {
+    settingDrawerOpen: false
+  };
+
+  handleSettingDrawerClose = () => {
+    this.setState({ settingDrawerOpen: false });
+  };
+
   render() {
     const {
       historyPush,
@@ -68,6 +77,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
       snackbarsOpen,
       loginChange
     } = this.props;
+
     return (
       <div>
         {/* <Button onClick={() => snackbarsOpen('sdlfkj')}>
@@ -97,6 +107,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
             </IconButton>
           ]}
         />
+        <SettingsDrawer
+          open={this.state.settingDrawerOpen}
+          onRequestClose={this.handleSettingDrawerClose}
+        />
         <AppBar position="static">
           <Toolbar>
             {/* <IconButton color="default">
@@ -122,6 +136,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
                 onClick={() => historyPush('/about')}
               />
             </Tabs>
+            <IconButton color="default">
+              <Icon className="fa fa-gear" onClick={() => this.setState({ settingDrawerOpen: true })} />
+            </IconButton>
             <Button onClick={() => loginChange('open', true)}>
               {titleName.login}
             </Button>

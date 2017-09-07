@@ -20,6 +20,27 @@ const container = {
         close: '关闭'
       }
     },
+    SettingsDrawer: {
+      downloadSettingsHeader: '下载设置',
+      PHPSESSID: 'PHPSESSID',
+      OriginalGetCount: '最大并行图片请求数量',
+      HtmlGetCount: '最大html请求数量',
+
+      htmlGetTimeout: 'html请求超时时间',
+      originalOneGetTimeOut: '图片请求超时时间',
+
+      htmlGetRetransmissionCount: 'html请求超时重传次数',
+      originalOneRetransmissionCount: '图片请求超时重传次数',
+         // 是否下载普通单图
+      OriginModel: '是否下载普通单图',
+
+          // 是否下载多图的illustId,默认true基本不需要改
+      mangaModel: '是否下载漫画',
+
+          // 是否下载动图
+      playerModel: '是否下载动图',
+
+    },
     HomePage: {
       searchParams: '搜索选项',
       searchTarget: {
