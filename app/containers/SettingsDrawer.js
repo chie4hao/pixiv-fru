@@ -15,16 +15,16 @@ function mapStateToProps(state) {
   };
 }
 
-function settingsChange(param, value) {
+function downloadSettingsChange(param, value) {
   return {
-    type: 'main/setting/change',
+    type: 'main/setting/downloadSettings/change',
     param,
     value
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ settingsChange }, dispatch);
+  return bindActionCreators({ downloadSettingsChange }, dispatch);
 }
 
 

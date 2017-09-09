@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom';
 import Button from 'material-ui/Button';
 import { withStyles } from 'material-ui/styles';
 import TextField from 'material-ui/TextField';
+import { FormlLabel, FormControl, FormControlLabel } from 'material-ui/Form';
+import Radio, { RadioGroup } from 'material-ui/Radio';
 
 import styles from './Home.css';
 import SearchParamsDialogs from '../containers/SearchParamsDialogs';
@@ -34,9 +36,21 @@ class Home extends Component {
           label={HomePage.searchTextField}
           value={searchOptions.text}
           margin="normal"
-          onChange={(event) => searchOptionsChange(event.target.value)}
+          onChange={(event) => searchOptionsChange('text', event.target.value)}
         />
-        <Button onClick={() => DownloadSearchChunk(searchOptions.text, 'string')}>
+        <FormControl component="fieldset" required>
+          <RadioGroup
+            aria-label="gender"
+            name="gender"
+            value={searchOptions.type}
+            onChange={(event, value) => searchOptionsChange('type', value)}
+          >
+            <FormControlLabel value="string" control={<Radio />} label={HomePage.searchType.string} />
+            <FormControlLabel value="number" control={<Radio />} label={HomePage.searchType.number} />
+            <FormControlLabel value="illustId" control={<Radio />} label={HomePage.searchType.illustId} />
+          </RadioGroup>
+        </FormControl>
+        <Button onClick={() => DownloadSearchChunk(searchOptions)}>
           ddddd
         </Button>
         <div className={styles.container} data-tid="container">

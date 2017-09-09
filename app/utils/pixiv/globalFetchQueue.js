@@ -1,7 +1,8 @@
+import { getState } from '../../store';
+
 const fs = require('fs');
 const nodeFetch = require('node-fetch');
 
-const config = require('./config');
 const retryRequestQueue = require('./requestQueue');
 const promisify = require('./promisify');
 
@@ -28,9 +29,10 @@ const originalFetchText = async (url, options, filepath) => {
   }
   return `${filepath} 已存在`;
 };
+const downloadSettings = getState().main.settings.downloadSettings;
 
-const htmlFetchQueue = retryRequestQueue(htmlFetchText)(config.HtmlGetCount, config.htmlGetRetransmissionCount, ['network timeout at', 'failed, reason:', 'Response timeout while trying to fetch'], config.htmlGetTimeout);
-const originalFetchQueue = retryRequestQueue(originalFetchText)(config.OriginalGetCount, config.originalOneRetransmissionCount, ['network timeout at', 'failed, reason:', 'The Originalfile is incomplete'], config.originalOneGetTimeOut);
+const htmlFetchQueue = retryRequestQueue(htmlFetchText)(downloadSettings.HtmlGetCount, downloadSettings.htmlGetRetransmissionCount, ['network timeout at', 'failed, reason:', 'Response timeout while trying to fetch'], downloadSettings.htmlGetTimeout);
+const originalFetchQueue = retryRequestQueue(originalFetchText)(downloadSettings.OriginalGetCount, downloadSettings.originalOneRetransmissionCount, ['network timeout at', 'failed, reason:', 'The Originalfile is incomplete'], downloadSettings.originalOneGetTimeOut);
 
 // There is only one instance
 function htmlFetch() {

@@ -1,33 +1,46 @@
+import { getState } from '../../store';
+
 const $ = require('cheerio');
 const querystring = require('querystring');
 
 const PixivOption = require('./pixivOption.js');
 const htmlFetch = require('./globalFetchQueue').htmlFetch();
-const config = require('./config');
 const illustIdToOriginal = require('./illustIdToOriginal');
 
 class DownloadSearch {
-  constructor(searchText, searchParams, downloadSettings) {
-    this.searchType = typeof (searchText);
+
+  constructor(searchOptions) {
+    this.searchType = searchOptions.type;
+    const searchParams = getState().HomePage.searchParams;
+
     if (this.searchType === 'string') {
       const params = {};
-      Object.entries(config.searchParams).forEach(([k, v]) => {
-        if (v !== '' && k !== 'tagExistsFilter' && k !== 'tagNotExistsFilter') params[k] = v;
+
+      if (searchParams.type !== 0) params.type = ['', 'illust', 'manga', 'ugoira'][searchParams.type];
+
+      params.s_mode = ['s_tag', 's_tag_full', 's_tc'][searchParams.s_mode];
+
+      if (searchParams.mode === 1) params.mode = 'safe';
+      if (searchParams.mode === 2) params.mode = 'r18';
+
+      params.order = searchParams.order ? 'date_d' : 'date';
+
+      ['wlt', 'hlt', 'wgt', 'hgt', 'ratio', 'tool', 'scd', 'ecd'].forEach(a => {
+        if (searchParams[a] !== '') params[a] = searchParams[a];
       });
+
       const tagExistsArray = searchParams.tagExistsFilter.split(' ');
       const tagNotExistsArray = searchParams.tagNotExistsFilter.split(' ');
-      console.log(tagExistsArray, tagNotExistsArray);
 
-      const tagExists = tagExistsArray.length !== 0 ? ` (${tagExistsArray.join(' OR ')})` : '';
-      const tagNotExists = tagNotExistsArray.length !== 0 ? ` -${tagNotExistsArray.join(' -')}` : '';
-      console.log(tagExists, tagNotExists);
+      const tagExists = tagExistsArray[0] !== '' ? ` (${tagExistsArray.join(' OR ')})` : '';
+      const tagNotExists = tagNotExistsArray[0] !== '' ? ` -${tagNotExistsArray.join(' -')}` : '';
 
-      params.word = `${searchText}${tagExists}${tagNotExists}`;
+      params.word = `${searchOptions.text}${tagExists}${tagNotExists}`;
 
       this.searchUrl = `https://www.pixiv.net/search.php?${querystring.stringify(params)}&p=`;
       console.log(this.searchUrl);
     } else if (this.searchType === 'number') {
-      this.searchUrl = `https://www.pixiv.net/member_illust.php?id=${searchText}&type=all&p=`;
+      this.searchUrl = `https://www.pixiv.net/member_illust.php?id=${searchOptions.text}&type=all&p=`;
     } else throw new TypeError(`The arg type '${this.searchType}' unaccepted`);
   }
 
@@ -74,25 +87,25 @@ class DownloadSearch {
   }
 
   async downloadSearchStr() {
-    return Promise.all(Array.from({ length: this.pageCount }).map((value, index) => {
-      const page = index + 1;
-      return (async () => {
-        const htmlDecoded = await htmlFetch(`${this.searchUrl}${page}`, new PixivOption('GET', 'http://www.pixiv.net/'));
-        const imageWork = $('#wrapper ._unit .column-search-result .image-item', htmlDecoded);
+    return Promise.all(Array.from({ length: this.pageCount }).map((value, index) =>
+      (async () => {
+        const htmlDecoded = await htmlFetch(`${this.searchUrl}${index + 1}`, new PixivOption('GET', 'http://www.pixiv.net/'));
+        const imageWork = $('#wrapper ._unit .column-search-result #js-mount-point-search-result-list', htmlDecoded);
+
+        if (imageWork[0] === undefined) console.log(htmlDecoded);
+        const dataItems = JSON.parse(imageWork[0].attribs['data-items']);
         const illustIdArray = [];
-
-        Array.from(imageWork).forEach(imageItem => {
-          const illustId = $('.work', imageItem)[0].attribs.href.match(/\d*$/)[0];
-          const bookmark = $('ul .bookmark-count', imageItem)[0];
-          const bookmarkCount = bookmark ? bookmark.children[1].data : 0;
-          if (bookmarkCount >= config.minimumBookmark) illustIdArray.push({ illustId });
+        Array.from(dataItems).forEach(dataItem => {
+          const illustId = dataItem.illustId;
+          const bookmarkCount = dataItem.bookmarkCount;
+          const minimumBookmark = getState().main.settings.downloadSettings.minimumBookmark;
+          if (bookmarkCount >= minimumBookmark) illustIdArray.push({ illustId });
         });
-
         return Promise.all(illustIdArray.map(illust =>
           (async () => illustIdToOriginal(illust.illustId))()
         ));
-      })();
-    }));
+      })()
+    ));
   }
 
   async downloadAuthorId() {
@@ -124,6 +137,6 @@ class DownloadSearch {
   }
 }
 
-const pixivDownload = arg => new DownloadSearch(arg).begin();
+const pixivDownload = searchOptions => new DownloadSearch(searchOptions).begin();
 
 module.exports = { pixivDownload, pixivDownloadIllustId: illustIdToOriginal, DownloadSearch };

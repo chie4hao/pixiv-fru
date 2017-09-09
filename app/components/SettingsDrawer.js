@@ -15,7 +15,7 @@ class SettingsDrawer extends Component {
     settingsDrawer: {},
     open: boolean,
     onRequestClose: () => void,
-    settingsChange: () => void,
+    downloadSettingsChange: () => void,
     classes: {}
   }
 
@@ -25,7 +25,7 @@ class SettingsDrawer extends Component {
       settingsDrawer,
       open,
       onRequestClose,
-      settingsChange,
+      downloadSettingsChange,
       classes
     } = this.props;
     return (
@@ -45,7 +45,7 @@ class SettingsDrawer extends Component {
                 <TextField
                   label={settingsDrawer.PHPSESSID}
                   value={settings.downloadSettings.PHPSESSID}
-                  onChange={(event) => settingsChange('PHPSESSID', event.target.value)}
+                  onChange={(event) => downloadSettingsChange('PHPSESSID', event.target.value)}
                   fullWidth
                   margin="normal"
                 />
@@ -56,7 +56,7 @@ class SettingsDrawer extends Component {
                   label={settingsDrawer.HtmlGetCount}
                   value={settings.downloadSettings.HtmlGetCount}
                   className={classes.textField}
-                  onChange={(event) => settingsChange('HtmlGetCount', event.target.value)}
+                  onChange={(event) => downloadSettingsChange('HtmlGetCount', event.target.value)}
                   margin="normal"
                 />
                 <div className={classes.sizeLabel} />
@@ -65,7 +65,7 @@ class SettingsDrawer extends Component {
                   label={settingsDrawer.OriginalGetCount}
                   value={settings.downloadSettings.OriginalGetCount}
                   className={classes.textField}
-                  onChange={(event) => settingsChange('OriginalGetCount', event.target.value)}
+                  onChange={(event) => downloadSettingsChange('OriginalGetCount', event.target.value)}
                   margin="normal"
                 />
               </ListItem>
@@ -75,7 +75,7 @@ class SettingsDrawer extends Component {
                   label={settingsDrawer.htmlGetTimeout}
                   value={settings.downloadSettings.htmlGetTimeout}
                   className={classes.textField}
-                  onChange={(event) => settingsChange('htmlGetTimeout', event.target.value)}
+                  onChange={(event) => downloadSettingsChange('htmlGetTimeout', event.target.value)}
                   margin="normal"
                 />
                 <div className={classes.sizeLabel} />
@@ -84,7 +84,7 @@ class SettingsDrawer extends Component {
                   label={settingsDrawer.originalOneGetTimeOut}
                   value={settings.downloadSettings.originalOneGetTimeOut}
                   className={classes.textField}
-                  onChange={(event) => settingsChange('originalOneGetTimeOut', event.target.value)}
+                  onChange={(event) => downloadSettingsChange('originalOneGetTimeOut', event.target.value)}
                   margin="normal"
                 />
               </ListItem>
@@ -94,7 +94,7 @@ class SettingsDrawer extends Component {
                   label={settingsDrawer.htmlGetRetransmissionCount}
                   value={settings.downloadSettings.htmlGetRetransmissionCount}
                   className={classes.textField}
-                  onChange={(event) => settingsChange('htmlGetRetransmissionCount', event.target.value)}
+                  onChange={(event) => downloadSettingsChange('htmlGetRetransmissionCount', event.target.value)}
                   margin="normal"
                 />
                 <div className={classes.sizeLabel} />
@@ -103,7 +103,17 @@ class SettingsDrawer extends Component {
                   label={settingsDrawer.originalOneRetransmissionCount}
                   value={settings.downloadSettings.originalOneRetransmissionCount}
                   className={classes.textField}
-                  onChange={(event) => settingsChange('originalOneRetransmissionCount', event.target.value)}
+                  onChange={(event) => downloadSettingsChange('originalOneRetransmissionCount', event.target.value)}
+                  margin="normal"
+                />
+              </ListItem>
+              <ListItem>
+                <TextField
+                  type="number"
+                  label={settingsDrawer.minimumBookmark}
+                  value={settings.downloadSettings.minimumBookmark}
+                  className={classes.textField}
+                  onChange={(event) => downloadSettingsChange('minimumBookmark', event.target.value)}
                   margin="normal"
                 />
               </ListItem>
@@ -112,7 +122,7 @@ class SettingsDrawer extends Component {
                   control={
                     <Switch
                       checked={settings.downloadSettings.OriginModel}
-                      onChange={(event, checked) => settingsChange('OriginModel', checked)}
+                      onChange={(event, checked) => downloadSettingsChange('OriginModel', checked)}
                     />
                 }
                   label={settingsDrawer.OriginModel}
@@ -123,7 +133,7 @@ class SettingsDrawer extends Component {
                   control={
                     <Switch
                       checked={settings.downloadSettings.mangaModel}
-                      onChange={(event, checked) => settingsChange('mangaModel', checked)}
+                      onChange={(event, checked) => downloadSettingsChange('mangaModel', checked)}
                     />
                 }
                   label={settingsDrawer.mangaModel}
@@ -134,7 +144,7 @@ class SettingsDrawer extends Component {
                   control={
                     <Switch
                       checked={settings.downloadSettings.playerModel}
-                      onChange={(event, checked) => settingsChange('playerModel', checked)}
+                      onChange={(event, checked) => downloadSettingsChange('playerModel', checked)}
                     />
                 }
                   label={settingsDrawer.playerModel}

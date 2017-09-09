@@ -10,7 +10,7 @@ const getSmodeSelected = createSelector(
 */
 function mapStateToProps(state) {
   return {
-    HomePage: state.main.settings.language.HomePage,
+    HomePage: state.main.settings.language.HomePage.searchParams,
     searchParams: state.HomePage.searchParams
   };
 }

@@ -31,6 +31,8 @@ const container = {
 
       htmlGetRetransmissionCount: 'html请求超时重传次数',
       originalOneRetransmissionCount: '图片请求超时重传次数',
+
+      minimumBookmark: '最小收藏数',
          // 是否下载普通单图
       OriginModel: '是否下载普通单图',
 
@@ -43,27 +45,41 @@ const container = {
     },
     HomePage: {
       searchTextField: '搜索内容',
-      searchParams: '搜索选项',
-      searchTarget: {
-        name: '搜索对象',
-        attribs: ['标签（部分一致）', '标签（完全一致）', '标题／简介']
+      searchType: {
+        string: '根据字符串搜索',
+        number: '按作者ID搜索',
+        illustId: '按illustId搜索'
       },
-      order: ['按旧排序', '按最新排序'],
-      tagExistsFilter: '包含其中任意一个关键词',
-      tagNotExistsFilter: '排除的关键词',
-      R18Only: '仅限R-18',
-      scd: '起止时间',
-      ecd: '结束时间',
-      ratio: '长宽比',
+      searchParams: {
+        title: '搜索选项',
+        type: {
+          name: '作品类别',
+          attribs: ['全部', '插画', '漫画', '动图']
+        },
+        target: {
+          name: '搜索对象',
+          attribs: ['标签（部分一致）', '标签（完全一致）', '标题／简介']
+        },
+        mode: {
+          name: '作品',
+          attribs: ['全部', '普通', '仅限R-18']
+        },
+        order: ['按旧排序', '按最新排序'],
+        tagExistsFilter: '包含其中任意一个关键词',
+        tagNotExistsFilter: '排除的关键词',
+        scd: '起止时间',
+        ecd: '结束时间',
+        ratio: '长宽比',
 
-      wlt: '最小宽度',
-      hlt: '最小高度',
-      wgt: '最大宽度',
-      hgt: '最大高度',
+        wlt: '最小宽度',
+        hlt: '最小高度',
+        wgt: '最大宽度',
+        hgt: '最大高度',
 
-      tool: '工具',
+        tool: '工具',
 
-      localStorageSave: '保存配置在本地存储中'
+        localStorageSave: '保存配置在本地存储中'
+      }
     }
   }
 };

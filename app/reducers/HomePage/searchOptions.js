@@ -1,13 +1,14 @@
 export const initialState = {
-  text: '東方'
+  text: '東方',
+  type: 'string'
 };
 
 export default function searchOptions(state = initialState, action) {
   switch (action.type) {
     case 'HomePage/searchOptions/change':
-      return {
-        text: action.text
-      };
+      return Object.assign({}, state, {
+        [action.param]: action.value
+      });
     default:
       return state;
   }

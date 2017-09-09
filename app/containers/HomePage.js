@@ -2,7 +2,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
-import { DownloadSearch } from '../utils/pixiv/pixivAPI';
+import { DownloadSearch, pixivDownload, pixivDownloadIllustId } from '../utils/pixiv/pixivAPI';
 
 import Home from '../components/Home';
 
@@ -13,21 +13,26 @@ function mapStateToProps(state) {
   };
 }
 
-function searchOptionsChange(text) {
+function searchOptionsChange(param, value) {
   return {
     type: 'HomePage/searchOptions/change',
-    text
+    param,
+    value
   };
 }
 
-function DownloadSearchChunk(searchText, type) {
-  return (dispatch, getState) => {
-    const state = getState();
-    const searchParams = state.HomePage.searchParams;
-    const downloadSettings = state.main.settings.downloadSettings;
-    console.log(searchParams, downloadSettings);
-    if (type === 'string') {
-      const d = new DownloadSearch(searchText, searchParams, downloadSettings);
+function DownloadSearchChunk(searchOptions) {
+  return (dispatch) => {
+    if (searchOptions.type === 'string') {
+      const a = new DownloadSearch(searchOptions);
+      a.fetchImageCount().then(b => console.log(b)).catch(e => { throw e; });
+      /*
+      pixivDownload(searchOptions).then(a => console.log(a))
+      .catch(e => { throw e; });
+      */
+    } else if (searchOptions.type === 'illustId') {
+      pixivDownloadIllustId(searchOptions.text).then(a => console.log(a))
+        .catch(e => { throw e; });
     }
   };
   /*

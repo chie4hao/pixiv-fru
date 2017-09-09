@@ -26,19 +26,21 @@ class ConfirmationDialog extends Component {
   }
   state = {
     anchorEl: undefined,
-    open: false,
+    typeOpen: false,
+    targetOpen: false,
+    modeOpen: false
   };
 
   handleChange = name => (event, checked) => {
     this.setState({ [name]: checked });
   };
 
-  handleClickListItem = event => {
-    this.setState({ open: true, anchorEl: event.currentTarget });
+  handleClickListItem = (event, name) => {
+    this.setState({ [name]: true, anchorEl: event.currentTarget });
   };
 
-  handleRequestClose = () => {
-    this.setState({ open: false });
+  handleRequestClose = (name) => {
+    this.setState({ [name]: false });
   };
 
   handleSave = () => {
@@ -60,7 +62,7 @@ class ConfirmationDialog extends Component {
         transition={Fade}
         onRequestClose={searchParamsRequestClose}
       >
-        <DialogTitle>{HomePage.searchParams}</DialogTitle>
+        <DialogTitle>{HomePage.title}</DialogTitle>
         <Divider />
         <DialogContent>
           <List>
@@ -68,28 +70,82 @@ class ConfirmationDialog extends Component {
               button
               aria-haspopup="true"
               aria-controls="lock-menu"
-              aria-label={HomePage.searchTarget.name}
-              onClick={this.handleClickListItem}
+              aria-label={HomePage.type.name}
+              onClick={(event) => this.handleClickListItem(event, 'typeOpen')}
             >
               <ListItemText
-                primary={HomePage.searchTarget.name}
-                secondary={HomePage.searchTarget.attribs[searchParams.s_mode]}
+                primary={HomePage.type.name}
+                secondary={HomePage.type.attribs[searchParams.type]}
               />
             </ListItem>
             <Menu
               anchorEl={this.state.anchorEl}
-              open={this.state.open}
-              onRequestClose={this.handleRequestClose}
+              open={this.state.typeOpen}
+              onRequestClose={() => this.handleRequestClose('typeOpen')}
             >
-              {HomePage.searchTarget.attribs.map((option, index) =>
+              {HomePage.type.attribs.map((option, index) =>
+                (<MenuItem
+                  key={option}
+                  selected={index === searchParams.type}
+                  onClick={() => { searchParamsChange('type', index); this.handleRequestClose('typeOpen'); }}
+                >
+                  {option}
+                </MenuItem>)
+              )}
+            </Menu>
+            <ListItem
+              button
+              aria-haspopup="true"
+              aria-controls="lock-menu"
+              aria-label={HomePage.target.name}
+              onClick={(event) => this.handleClickListItem(event, 'targetOpen')}
+            >
+              <ListItemText
+                primary={HomePage.target.name}
+                secondary={HomePage.target.attribs[searchParams.s_mode]}
+              />
+            </ListItem>
+            <Menu
+              anchorEl={this.state.anchorEl}
+              open={this.state.targetOpen}
+              onRequestClose={() => this.handleRequestClose('targetOpen')}
+            >
+              {HomePage.target.attribs.map((option, index) =>
             (<MenuItem
               key={option}
               selected={index === searchParams.s_mode}
-              onClick={() => { searchParamsChange('s_mode', index); this.handleRequestClose(); }}
+              onClick={() => { searchParamsChange('s_mode', index); this.handleRequestClose('targetOpen'); }}
             >
               {option}
             </MenuItem>)
           )}
+            </Menu>
+            <ListItem
+              button
+              aria-haspopup="true"
+              aria-controls="lock-menu"
+              aria-label={HomePage.mode.name}
+              onClick={(event) => this.handleClickListItem(event, 'modeOpen')}
+            >
+              <ListItemText
+                primary={HomePage.mode.name}
+                secondary={HomePage.mode.attribs[searchParams.mode]}
+              />
+            </ListItem>
+            <Menu
+              anchorEl={this.state.anchorEl}
+              open={this.state.modeOpen}
+              onRequestClose={() => this.handleRequestClose('modeOpen')}
+            >
+              {HomePage.mode.attribs.map((option, index) =>
+                (<MenuItem
+                  key={option}
+                  selected={index === searchParams.mode}
+                  onClick={() => { searchParamsChange('mode', index); this.handleRequestClose('modeOpen'); }}
+                >
+                  {option}
+                </MenuItem>)
+              )}
             </Menu>
           </List>
           <Divider />
@@ -103,17 +159,6 @@ class ConfirmationDialog extends Component {
                   />
                 }
                 label={HomePage.order[Number(searchParams.order)]}
-              />
-              <div className={classes.formControlLabel} />
-              <div className={classes.formControlLabel} />
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={searchParams.r18}
-                    onChange={(event, checked) => searchParamsChange('r18', checked)}
-                  />
-                }
-                label={HomePage.R18Only}
               />
             </ListItem>
           </List>

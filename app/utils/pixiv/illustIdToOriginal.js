@@ -1,8 +1,9 @@
+import { getState } from '../../store';
+
 const $ = require('cheerio');
 const PixivOption = require('./pixivOption.js');
 const htmlFetch = require('./globalFetchQueue').htmlFetch();
 const originalFetch = require('./globalFetchQueue').originalFetch();
-const config = require('./config');
 
 const illustIdOriginal = async (illustId) => {
   const mediumUrl = `https://www.pixiv.net/member_illust.php?mode=medium&illust_id=${illustId}`;
@@ -26,7 +27,9 @@ const illustIdOriginal = async (illustId) => {
   */
 
   const name = $('.title', wrapper)[0].children[0].data;
-  const filepath = './test/pixivApiFetch/resources/';
+  const filepath = './app/utils/pixiv/resources/';
+
+  const config = getState().main.settings.downloadSettings;
 
   if ($('.player', worksDisplay).length !== 0) {
     if (!config.playerModel) return `${illustId} a player 已过滤`;

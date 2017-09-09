@@ -1,18 +1,22 @@
 /**
  * Created by chie on 2016/5/5.
  */
-const config = require('./config');
+
+import { getState } from '../../store';
 
 function RequestOptions(method, referer) {
-    // 根据我自己浏览器伪造的headers,其实很多都用不上的
+  let PHPSESSID = getState().main.settings.downloadSettings.PHPSESSID;
+  if (PHPSESSID === '') PHPSESSID = getState().main.login.PHPSESSID;
+
   const headers = {
     Accept: 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Accept-Language': 'zh-CN,zh;q=0.8',
-    'Cache-Control': 'max-age=0',
-    Connection: 'keep-alive',
-    Cookie: `PHPSESSID=${config.PHPSESSID};`,
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.115 Safari/537.36'
+    'accept-encoding': 'gzip, deflate, br',
+    'accept-language': 'zh-CN,zh;q=0.8,en;q=0.6',
+    'cache-control': 'max-age=0',
+    connection: 'keep-alive',
+
+    Cookie: `PHPSESSID=${PHPSESSID}; p_ab_id=7; p_ab_id_2=9;`,
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36'
   };
   headers.Referer = referer;
   this.method = method;
