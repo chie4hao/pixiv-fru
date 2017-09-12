@@ -24,12 +24,14 @@ function searchOptionsChange(param, value) {
 function DownloadSearchChunk(searchOptions) {
   return (dispatch) => {
     if (searchOptions.type === 'string') {
+      /*
       const a = new DownloadSearch(searchOptions);
       a.fetchImageCount().then(b => console.log(b)).catch(e => { throw e; });
-      /*
+      */
+
       pixivDownload(searchOptions).then(a => console.log(a))
       .catch(e => { throw e; });
-      */
+
     } else if (searchOptions.type === 'illustId') {
       pixivDownloadIllustId(searchOptions.text).then(a => console.log(a))
         .catch(e => { throw e; });

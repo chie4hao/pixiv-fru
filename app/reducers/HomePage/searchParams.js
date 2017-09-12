@@ -6,7 +6,7 @@ export const initialState = {
   tagExistsFilter: '',
 
       // 排除的关键词
-  tagNotExistsFilter: 'BL 腐 漫画 講座 刀剣乱 松 黒子 弱虫ペダル 世界一初恋 進撃の巨人 ハイキュー 銀魂 アザゼルさん',
+  tagNotExistsFilter: 'BL 腐 漫画 講座 刀剣乱 黒子 弱虫ペダル 世界一初恋 進撃の巨人 ハイキュー 銀魂 アザゼルさん',
 
       // 搜索类别，0 1 illust 2 manga 3 ugoria
   type: 0,

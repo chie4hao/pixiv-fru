@@ -1,29 +1,30 @@
+/* eslint no-underscore-dangle: 0 */
+
 const Queue = require('./queue');
 
-const retryRequestQueue = fun => (concurrency, retryCount, retryMessage, retryTimeout) => {
-  const q = Queue(concurrency);
-
-  if (!Array.isArray(retryMessage)) {
-    retryMessage = [retryMessage];
+class RetryRequestQueue extends Queue {
+  constructor(task, concurrency, retryCount, retryMessage, retryTimeout) {
+    super(concurrency);
+    this.task = task;
+    this._retryCount = retryCount;
+    this._retryMessage = retryMessage;
+    this._retryTimeout = retryTimeout;
   }
 
-  const req = async (url, options, ...args) => {
-    for (let i = 0; i < retryCount; i += 1) {
+  async push(...args) {
+    for (let i = 0; i < this._retryCount; i += 1) {
       try {
-        if (retryTimeout) {
-          options.timeout = retryTimeout;
-        }
-        return q.push(fun, url, options, ...args);
+        args[1].timeout = this._retryTimeout;
+        return super.push(this.task, ...args);
       } catch (e) {
-        if (retryMessage.every(a => e.message.indexOf(a) === -1)) {
+        if (this._retryMessage.every(a => e.message.indexOf(a) === -1)) {
           throw e;
         }
-        console.warn(e.message);
+        console.log(e.message);
       }
     }
-    throw new Error(`${url} timeOut retry ${retryCount} times`);
-  };
-  return req;
-};
+    throw new Error(`${args[1]} timeOut retry ${this._retryCount} times`);
+  }
+}
 
-module.exports = retryRequestQueue;
+module.exports = RetryRequestQueue;

@@ -4,7 +4,7 @@ const $ = require('cheerio');
 const querystring = require('querystring');
 
 const PixivOption = require('./pixivOption.js');
-const htmlFetch = require('./globalFetchQueue').htmlFetch();
+const htmlFetchQueue = require('./globalFetchQueue').htmlFetchQueue;
 const illustIdToOriginal = require('./illustIdToOriginal');
 
 class DownloadSearch {
@@ -78,7 +78,7 @@ class DownloadSearch {
   */
 
   async fetchImageCount() {
-    const $1 = $.load(await htmlFetch(`${this.searchUrl}1`, new PixivOption('GET', 'http://www.pixiv.net/')));
+    const $1 = $.load(await htmlFetchQueue.push(`${this.searchUrl}1`, new PixivOption('GET', 'http://www.pixiv.net/')));
     if ($1('body').attr('class').indexOf('not-logged-in') !== -1) {
       throw new Error('Not Logged In');
     }
@@ -89,7 +89,7 @@ class DownloadSearch {
   async downloadSearchStr() {
     return Promise.all(Array.from({ length: this.pageCount }).map((value, index) =>
       (async () => {
-        const htmlDecoded = await htmlFetch(`${this.searchUrl}${index + 1}`, new PixivOption('GET', 'http://www.pixiv.net/'));
+        const htmlDecoded = await htmlFetchQueue.push(`${this.searchUrl}${index + 1}`, new PixivOption('GET', 'http://www.pixiv.net/'));
         const imageWork = $('#wrapper ._unit .column-search-result #js-mount-point-search-result-list', htmlDecoded);
 
         if (imageWork[0] === undefined) console.log(htmlDecoded);
@@ -112,7 +112,7 @@ class DownloadSearch {
     return Promise.all(Array.from({ length: this.pageCount }).map((value, index) => {
       const page = index + 1;
       return (async () => {
-        const htmlDecoded = await htmlFetch(`${this.searchUrl}${page}`, new PixivOption('GET', 'http://www.pixiv.net/'));
+        const htmlDecoded = await htmlFetchQueue.push(`${this.searchUrl}${page}`, new PixivOption('GET', 'http://www.pixiv.net/'));
         const imageWork = $('#wrapper ._unit ._image-items .image-item .work', htmlDecoded);
         return Promise.all(Array.from(imageWork).map(imageItem => {
           const illustId = imageItem.attribs.href.match(/\d*$/)[0];

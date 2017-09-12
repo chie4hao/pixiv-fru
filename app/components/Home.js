@@ -40,6 +40,7 @@ class Home extends Component {
         />
         <FormControl component="fieldset" required>
           <RadioGroup
+            row
             aria-label="gender"
             name="gender"
             value={searchOptions.type}
