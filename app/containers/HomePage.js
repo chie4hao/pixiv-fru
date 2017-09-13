@@ -31,7 +31,6 @@ function DownloadSearchChunk(searchOptions) {
 
       pixivDownload(searchOptions).then(a => console.log(a))
       .catch(e => { throw e; });
-
     } else if (searchOptions.type === 'illustId') {
       pixivDownloadIllustId(searchOptions.text).then(a => console.log(a))
         .catch(e => { throw e; });

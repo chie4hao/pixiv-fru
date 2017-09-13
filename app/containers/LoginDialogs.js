@@ -26,26 +26,16 @@ function loginChange(a, b) {
   };
 }
 
-function snackbarsOpen(message) {
+function loginSagas(username, password) {
   return {
-    type: 'HomePage/snackbars/open',
-    message
-  };
-}
-
-export function loginChunk(username, password) {
-  return (dispatch) => {
-    pixivLogin(username, password).then(a => {
-      dispatch(batchActions([loginChange('PHPSESSID', a), snackbarsOpen(`登录成功，获得PHPSESSID：${a}`), loginChange('open', false)]));
-      return 0;
-    }).catch(e => {
-      dispatch(snackbarsOpen(e.message));
-    });
+    type: 'saga_loginRequest',
+    username,
+    password
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ loginChange, loginChunk }, dispatch);
+  return bindActionCreators({ loginChange, loginSagas }, dispatch);
 }
 
 

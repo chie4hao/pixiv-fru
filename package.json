@@ -195,6 +195,7 @@
     "react-router-redux": "^5.0.0-alpha.6",
     "redux": "^3.7.1",
     "redux-batched-actions": "^0.1.6",
+    "redux-saga": "^0.15.6",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
     "source-map-support": "^0.4.15"

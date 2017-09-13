@@ -12,11 +12,11 @@ class LoginDialogs extends Component {
     classes: {},
     login: {},
     loginChange: (string, string | number | boolean) => void,
-    loginChunk: () => void
+    loginSagas: () => void
   };
 
   render() {
-    const { title, classes, login, loginChange, loginChunk } = this.props;
+    const { title, classes, login, loginChange, loginSagas } = this.props;
     return (
       <Dialog
         open={login.open}
@@ -64,7 +64,7 @@ class LoginDialogs extends Component {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => {
-            console.log(loginChunk(login.username, login.password));
+            console.log(loginSagas(login.username, login.password));
           }}
           >
             {title.login}

@@ -1,12 +1,15 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
 import createHashHistory from 'history/createHashHistory';
 import createBrowserHistory from 'history/createBrowserHistory';
 import { routerMiddleware, routerActions } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
+import mySaga from '../sagas';
 import rootReducer from '../reducers';
 import * as counterActions from '../actions/counter';
 
+const sagaMiddleware = createSagaMiddleware();
 const history = createHashHistory();
 /* const history = createBrowserHistory({
   basename: window.location.pathname
@@ -18,6 +21,7 @@ const configureStore = (initialState) => {
 
   // Thunk Middleware
   middleware.push(thunk);
+  middleware.push(sagaMiddleware);
 
   // Logging Middleware
   const logger = createLogger({
@@ -51,6 +55,8 @@ const configureStore = (initialState) => {
 
   // Create Store
   const store = createStore(rootReducer, initialState, enhancer);
+
+  sagaMiddleware.run(mySaga);
 
   if (module.hot) {
     module.hot.accept('../reducers', () =>

@@ -9,6 +9,8 @@ import ListSubheader from 'material-ui/List/ListSubheader';
 import Divider from 'material-ui/Divider';
 import { withStyles } from 'material-ui/styles';
 
+import { htmlFetchQueue, originalFetchQueue } from '../utils/pixiv/globalFetchQueue';
+
 class SettingsDrawer extends Component {
   props: {
     settings: {},
@@ -56,7 +58,9 @@ class SettingsDrawer extends Component {
                   label={settingsDrawer.HtmlGetCount}
                   value={settings.downloadSettings.HtmlGetCount}
                   className={classes.textField}
-                  onChange={(event) => downloadSettingsChange('HtmlGetCount', event.target.value)}
+                  onChange={(event) => {
+                    downloadSettingsChange('HtmlGetCount', event.target.value);
+                  }}
                   margin="normal"
                 />
                 <div className={classes.sizeLabel} />

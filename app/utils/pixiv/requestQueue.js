@@ -11,6 +11,24 @@ class RetryRequestQueue extends Queue {
     this._retryTimeout = retryTimeout;
   }
 
+  get retryCount() {
+    return this._retryCount;
+  }
+
+  set retryCount(retryCount) {
+    this._retryCount = retryCount;
+    this.process();
+  }
+
+  get retryTimeout() {
+    return this._retryTimeout;
+  }
+
+  set retryTimeout(retryTimeout) {
+    this._retryTimeout = retryTimeout;
+    this.process();
+  }
+
   async push(...args) {
     for (let i = 0; i < this._retryCount; i += 1) {
       try {
@@ -20,7 +38,7 @@ class RetryRequestQueue extends Queue {
         if (this._retryMessage.every(a => e.message.indexOf(a) === -1)) {
           throw e;
         }
-        console.log(e.message);
+        console.warn(e.message);
       }
     }
     throw new Error(`${args[1]} timeOut retry ${this._retryCount} times`);
