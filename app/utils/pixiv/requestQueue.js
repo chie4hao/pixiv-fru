@@ -1,6 +1,6 @@
 /* eslint no-underscore-dangle: 0 */
 
-const Queue = require('./queue');
+import Queue from './queue';
 
 class RetryRequestQueue extends Queue {
   constructor(task, concurrency, retryCount, retryMessage, retryTimeout) {
@@ -45,4 +45,4 @@ class RetryRequestQueue extends Queue {
   }
 }
 
-module.exports = RetryRequestQueue;
+export default RetryRequestQueue;

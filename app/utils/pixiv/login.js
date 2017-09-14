@@ -1,9 +1,9 @@
 // <a href="/logout.php?return_to=%2F" data-text-confirm="您確定要退出賬號嗎？" onclick="return confirm(this.getAttribute('data-text-confirm'))" class="item header-logout">退出賬號</a>
 
-const nodeFetch = require('node-fetch');
-const $ = require('cheerio');
-const FormData = require('form-data');
-const { parse } = require('querystring');
+import nodeFetch from 'node-fetch';
+import $ from 'cheerio';
+import FormData from 'form-data';
+import { parse } from 'querystring';
 
 let PHPSESSID = '';
 const submitForm = {};

@@ -6,7 +6,7 @@ import createBrowserHistory from 'history/createBrowserHistory';
 import { routerMiddleware, routerActions } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
 import mySaga from '../sagas';
-import rootReducer from '../reducers';
+import rootReducer from '../reducers/index';
 import * as counterActions from '../actions/counter';
 
 const sagaMiddleware = createSagaMiddleware();
@@ -14,6 +14,8 @@ const history = createHashHistory();
 /* const history = createBrowserHistory({
   basename: window.location.pathname
 }); */
+
+console.log(mySaga);
 const configureStore = (initialState) => {
   // Redux Configuration
   const middleware = [];

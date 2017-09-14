@@ -15,14 +15,14 @@ class Home extends Component {
     HomePage: {},
     searchOptions: {},
     searchOptionsChange: () => void,
-    DownloadSearchChunk: () => void
+    sagaSearch: () => void
   }
   state = {
     searchParamsOpen: false
   };
 
   render() {
-    const { HomePage, searchOptions, searchOptionsChange, DownloadSearchChunk } = this.props;
+    const { HomePage, searchOptions, searchOptionsChange, sagaSearch } = this.props;
     return (
       <div>
         <Button onClick={() => this.setState({ searchParamsOpen: true })}>
@@ -51,7 +51,7 @@ class Home extends Component {
             <FormControlLabel value="illustId" control={<Radio />} label={HomePage.searchType.illustId} />
           </RadioGroup>
         </FormControl>
-        <Button onClick={() => DownloadSearchChunk(searchOptions)}>
+        <Button onClick={() => sagaSearch(searchOptions)}>
           ddddd
         </Button>
         <div className={styles.container} data-tid="container">

@@ -82,7 +82,7 @@ class PromiseQueue {
   }
 }
 
-module.exports = PromiseQueue;
+export default PromiseQueue;
 /*
 const timeOut = (time, text) => new Promise((resolve, reject) => {
   setTimeout(() => {

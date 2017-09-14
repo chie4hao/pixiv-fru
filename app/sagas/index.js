@@ -1,6 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects';
 import { batchActions } from 'redux-batched-actions';
 import pixivLogin from '../utils/pixiv/login';
+import { DownloadSearch, pixivDownload, pixivDownloadIllustId } from '../utils/pixiv/pixivAPI';
 
 function snackbarsOpen(message) {
   return {
@@ -25,9 +26,38 @@ function* login(action) {
     yield put(snackbarsOpen(e.message));
   }
 }
+/*
+function DownloadSearchChunk(searchOptions) {
+  return (dispatch) => {
+    if (searchOptions.type === 'string') {
+
+      const a = new DownloadSearch(searchOptions);
+      a.fetchImageCount().then(b => console.log(b)).catch(e => { throw e; });
+
+
+      pixivDownload(searchOptions).then(a => console.log(a))
+        .catch(e => { throw e; });
+    } else if (searchOptions.type === 'illustId') {
+      pixivDownloadIllustId(searchOptions.text).then(a => console.log(a))
+        .catch(e => { throw e; });
+    }
+  };
+}
+*/
+function* search(action) {
+  console.log(action);
+  if (action.searchOptions.type === 'string') {
+    const a = new DownloadSearch(action.searchOptions);
+    console.log(a);
+    const b = yield call([a, a.fetchImageCount]);
+    yield put(snackbarsOpen(b.toString()));
+  }
+}
 
 function* mySage() {
   yield takeLatest('saga_loginRequest', login);
+  yield takeLatest('saga_search', search);
+  yield takeLatest('saga_loginReque111st', login);
 }
 
 export default mySage;

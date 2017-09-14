@@ -27,4 +27,4 @@ function RequestHeaders(b) {
   return Object.assign({}, b, {});
 }
 
-module.exports = RequestOptions;
+export default RequestOptions;

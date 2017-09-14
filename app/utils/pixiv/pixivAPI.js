@@ -1,11 +1,9 @@
+import $ from 'cheerio';
+import querystring from 'querystring';
 import { getState } from '../../store';
-
-const $ = require('cheerio');
-const querystring = require('querystring');
-
-const PixivOption = require('./pixivOption.js');
-const htmlFetchQueue = require('./globalFetchQueue').htmlFetchQueue;
-const illustIdToOriginal = require('./illustIdToOriginal');
+import { htmlFetchQueue } from './globalFetchQueue';
+import PixivOption from './pixivOption';
+import illustIdToOriginal from './illustIdToOriginal';
 
 class DownloadSearch {
 
@@ -139,4 +137,4 @@ class DownloadSearch {
 
 const pixivDownload = searchOptions => new DownloadSearch(searchOptions).begin();
 
-module.exports = { pixivDownload, pixivDownloadIllustId: illustIdToOriginal, DownloadSearch };
+export { pixivDownload, illustIdToOriginal, DownloadSearch };

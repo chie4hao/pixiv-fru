@@ -1,9 +1,8 @@
-import { getState } from '../../store';
+import $ from 'cheerio';
 
-const $ = require('cheerio');
-const PixivOption = require('./pixivOption.js');
-const htmlFetchQueue = require('./globalFetchQueue').htmlFetchQueue;
-const originalFetchQueue = require('./globalFetchQueue').originalFetchQueue;
+import PixivOption from './pixivOption';
+import { getState } from '../../store';
+import { htmlFetchQueue, originalFetchQueue } from './globalFetchQueue';
 
 const illustIdOriginal = async (illustId) => {
   const mediumUrl = `https://www.pixiv.net/member_illust.php?mode=medium&illust_id=${illustId}`;
@@ -65,6 +64,6 @@ const illustIdOriginal = async (illustId) => {
   return originalFetchQueue.push(imageUrl, new PixivOption('GET', mediumUrl), filepath + filename);
 };
 
-module.exports = illustIdOriginal;
+export default illustIdOriginal;
 
 // illustIdOriginal(42050112).then(a => console.log(a)).catch(e => console.log(e));

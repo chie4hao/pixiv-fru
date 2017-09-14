@@ -1,10 +1,8 @@
+import fs from 'fs';
+import nodeFetch from 'node-fetch';
+import RetryRequestQueue from './requestQueue';
+import promisify from './promisify';
 import { getState } from '../../store';
-
-const fs = require('fs');
-const nodeFetch = require('node-fetch');
-
-const RetryRequestQueue = require('./requestQueue');
-const promisify = require('./promisify');
 
 const htmlFetchText = async (url, options) => (await nodeFetch(url, options)).text();
 
@@ -43,4 +41,4 @@ function originalFetch(...args) {
   return originalFetchQueue.push(...args);
 } */
 
-module.exports = { htmlFetchQueue, originalFetchQueue };
+export { htmlFetchQueue, originalFetchQueue };
