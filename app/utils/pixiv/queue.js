@@ -85,29 +85,18 @@ class PromiseQueue {
 export default PromiseQueue;
 /*
 const timeOut = (time, text) => new Promise((resolve, reject) => {
+    throw new Error('sldkflsdj');
   setTimeout(() => {
-    resolve(text);
+    reject(text);
   }, time);
 });
 
 const Q = new PromiseQueue(4);
-Q.push(timeOut, 1000, 1234).then(a => console.log(a));
-Q.push(timeOut, 1000, 1234).then(a => console.log(a));
-Q.push(timeOut, 1000, 1234).then(a => console.log(a));
-Q.push(timeOut, 1000, 1234).then(a => console.log(a));
-Q.push(timeOut, 1000, 1234).then(a => console.log(a));
-Q.push(timeOut, 1000, 1234).then(a => console.log(a));
-Q.push(timeOut, 1000, 1234).then(a => console.log(a));
-
-Q.push(timeOut, 1000, 1234).then(a => console.log(a));
-Q.push(timeOut, 1000, 1234).then(a => console.log(a));
-Q.push(timeOut, 1000, 1234).then(a => console.log(a));
-
-Q.push(timeOut, 1000, 1234).then(a => console.log(a));
-Q.push(timeOut, 1000, 1234).then(a => console.log(a));
-Q.push(timeOut, 1000, 1234).then(a => console.log(a));
-
-Q.push(timeOut, 1000, 1234).then(a => console.log(a));
-Q.push(timeOut, 1000, 1234).then(a => console.log(a));
-Q.push(timeOut, 1000, 1234).then(a => console.log(a));
+Q.push(timeOut, 1000, 1234).then(a => console.log(a)).catch(e => console.log(e.message));
+Q.push(timeOut, 1000, 1234).then(a => console.log(a)).catch(e => console.log(e.message));
+Q.push(timeOut, 1000, 1234).then(a => console.log(a)).catch(e => console.log(e.message));
+Q.push(timeOut, 1000, 1234).then(a => console.log(a)).catch(e => console.log(e.message));
+Q.push(timeOut, 1000, 1234).then(a => console.log(a)).catch(e => console.log(e.message));
+Q.push(timeOut, 1000, 1234).then(a => console.log(a)).catch(e => console.log(e.message));
+Q.push(timeOut, 1000, 1234).then(a => console.log(a)).catch(e => console.log(e.message));
 */

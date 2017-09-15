@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import createHashHistory from 'history/createHashHistory';
-import createBrowserHistory from 'history/createBrowserHistory';
+// import createBrowserHistory from 'history/createBrowserHistory';
 import { routerMiddleware, routerActions } from 'react-router-redux';
 import { createLogger } from 'redux-logger';
 import mySaga from '../sagas';
@@ -15,7 +15,6 @@ const history = createHashHistory();
   basename: window.location.pathname
 }); */
 
-console.log(mySaga);
 const configureStore = (initialState) => {
   // Redux Configuration
   const middleware = [];

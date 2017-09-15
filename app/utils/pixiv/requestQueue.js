@@ -33,7 +33,8 @@ class RetryRequestQueue extends Queue {
     for (let i = 0; i < this._retryCount; i += 1) {
       try {
         args[1].timeout = this._retryTimeout;
-        return super.push(this.task, ...args);
+        const result = await super.push(this.task, ...args);
+        return result;
       } catch (e) {
         if (this._retryMessage.every(a => e.message.indexOf(a) === -1)) {
           throw e;

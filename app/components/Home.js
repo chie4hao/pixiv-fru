@@ -14,15 +14,17 @@ class Home extends Component {
   props: {
     HomePage: {},
     searchOptions: {},
+    downloadProcess: {},
     searchOptionsChange: () => void,
-    sagaSearch: () => void
+    sagaSearch: () => void,
+    allDownload: () => void
   }
   state = {
     searchParamsOpen: false
   };
 
   render() {
-    const { HomePage, searchOptions, searchOptionsChange, sagaSearch } = this.props;
+    const { HomePage, searchOptions, downloadProcess, searchOptionsChange, sagaSearch, allDownload } = this.props;
     return (
       <div>
         <Button onClick={() => this.setState({ searchParamsOpen: true })}>
@@ -54,6 +56,7 @@ class Home extends Component {
         <Button onClick={() => sagaSearch(searchOptions)}>
           ddddd
         </Button>
+        <Button disabled={!downloadProcess.open} onClick={allDownload}>sdfsdf</Button>
         <div className={styles.container} data-tid="container">
           <h2>Home</h2>
           <Link to="/about">to Counter</Link>

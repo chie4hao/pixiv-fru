@@ -9,7 +9,8 @@ import Home from '../components/Home';
 function mapStateToProps(state) {
   return {
     HomePage: state.main.settings.language.HomePage,
-    searchOptions: state.HomePage.searchOptions
+    searchOptions: state.HomePage.searchOptions,
+    downloadProcess: state.HomePage.downloadProcess
   };
 }
 
@@ -27,26 +28,15 @@ function sagaSearch(searchOptions) {
     searchOptions
   };
 }
-/*
-function DownloadSearchChunk(searchOptions) {
-  return (dispatch) => {
-    if (searchOptions.type === 'string') {
 
-      const a = new DownloadSearch(searchOptions);
-      a.fetchImageCount().then(b => console.log(b)).catch(e => { throw e; });
-
-
-      pixivDownload(searchOptions).then(a => console.log(a))
-      .catch(e => { throw e; });
-    } else if (searchOptions.type === 'illustId') {
-      pixivDownloadIllustId(searchOptions.text).then(a => console.log(a))
-        .catch(e => { throw e; });
-    }
+function allDownload() {
+  return {
+    type: 'saga_allDownload'
   };
-} */
+}
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ searchOptionsChange, sagaSearch }, dispatch);
+  return bindActionCreators({ searchOptionsChange, sagaSearch, allDownload }, dispatch);
 }
 
 

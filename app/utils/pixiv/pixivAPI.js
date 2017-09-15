@@ -36,7 +36,6 @@ class DownloadSearch {
       params.word = `${searchOptions.text}${tagExists}${tagNotExists}`;
 
       this.searchUrl = `https://www.pixiv.net/search.php?${querystring.stringify(params)}&p=`;
-      console.log(this.searchUrl);
     } else if (this.searchType === 'number') {
       this.searchUrl = `https://www.pixiv.net/member_illust.php?id=${searchOptions.text}&type=all&p=`;
     } else throw new TypeError(`The arg type '${this.searchType}' unaccepted`);
@@ -78,19 +77,18 @@ class DownloadSearch {
   async fetchImageCount() {
     const $1 = $.load(await htmlFetchQueue.push(`${this.searchUrl}1`, new PixivOption('GET', 'http://www.pixiv.net/')));
     if ($1('body').attr('class').indexOf('not-logged-in') !== -1) {
-      throw new Error('Not Logged In');
+      throw new Error('fetchImageCount ERROR: Not Logged In');
     }
     const span = $1('#wrapper ._unit .count-badge');
     return span.text().match(/^\d*/)[0];
   }
 
   async downloadSearchStr() {
-    return Promise.all(Array.from({ length: this.pageCount }).map((value, index) =>
+    return Promise.all(Array.from({ length: this.pageCount > 1000 ? 1000 : this.pageCount }).map((value, index) =>
       (async () => {
         const htmlDecoded = await htmlFetchQueue.push(`${this.searchUrl}${index + 1}`, new PixivOption('GET', 'http://www.pixiv.net/'));
         const imageWork = $('#wrapper ._unit .column-search-result #js-mount-point-search-result-list', htmlDecoded);
 
-        if (imageWork[0] === undefined) console.log(htmlDecoded);
         const dataItems = JSON.parse(imageWork[0].attribs['data-items']);
         const illustIdArray = [];
         Array.from(dataItems).forEach(dataItem => {
@@ -120,6 +118,19 @@ class DownloadSearch {
     }));
   }
 
+  async downloadAll() {
+    switch (this.searchType) {
+      case 'string':
+        this.pageCount = Math.ceil(this.imageCount / 40);
+        return this.downloadSearchStr();
+      case 'number':
+        this.pageCount = Math.ceil(this.imageCount / 20);
+        return this.downloadAuthorId();
+      default:
+        return 0;
+    }
+  }
+
   async begin() {
     const imageCount = await this.fetchImageCount();
     switch (this.searchType) {
@@ -137,4 +148,4 @@ class DownloadSearch {
 
 const pixivDownload = searchOptions => new DownloadSearch(searchOptions).begin();
 
-export { pixivDownload, illustIdToOriginal, DownloadSearch };
+export { pixivDownload, illustIdToOriginal as pixivDownloadIllustId, DownloadSearch };
