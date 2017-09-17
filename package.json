@@ -184,7 +184,7 @@
     "electron-debug": "^1.2.0",
     "font-awesome": "^4.7.0",
     "history": "^4.6.3",
-    "material-ui": "^1.0.0-beta.8",
+    "material-ui": "^1.0.0-beta.10",
     "node-fetch": "^1.7.2",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
@@ -196,7 +196,6 @@
     "redux": "^3.7.1",
     "redux-batched-actions": "^0.1.6",
     "redux-saga": "^0.15.6",
-    "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
     "source-map-support": "^0.4.15"
   },

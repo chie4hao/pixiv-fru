@@ -84,7 +84,9 @@ class DownloadSearch {
   }
 
   async downloadSearchStr() {
-    return Promise.all(Array.from({ length: this.pageCount > 1000 ? 1000 : this.pageCount }).map((value, index) =>
+    return Promise.all(Array.from({
+      length: this.pageCount > 1000 ? 1000 : this.pageCount
+    }).map((value, index) =>
       (async () => {
         const htmlDecoded = await htmlFetchQueue.push(`${this.searchUrl}${index + 1}`, new PixivOption('GET', 'http://www.pixiv.net/'));
         const imageWork = $('#wrapper ._unit .column-search-result #js-mount-point-search-result-list', htmlDecoded);

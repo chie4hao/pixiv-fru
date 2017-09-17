@@ -123,17 +123,17 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
               <Tab
                 label={titleName.download}
                 icon={favoritesIcon}
-                onClick={() => historyPush('/')}
+                onClick={() => selected !== 0 && historyPush('/')}
               />
               <Tab
                 label={titleName.player}
                 icon={favoritesIcon}
-                onClick={() => historyPush('/player')}
+                onClick={() => selected !== 1 && historyPush('/player')}
               />
               <Tab
                 label={titleName.about}
                 icon={favoritesIcon}
-                onClick={() => historyPush('/about')}
+                onClick={() => selected !== 2 && historyPush('/about')}
               />
             </Tabs>
             <IconButton color="default">

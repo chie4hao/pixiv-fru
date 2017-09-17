@@ -4,7 +4,7 @@ import { Switch, Route } from 'react-router';
 import { connect } from 'react-redux';
 import App from './containers/App';
 import HomePage from './containers/HomePage';
-import CounterPage from './containers/CounterPage';
+// import CounterPage from './containers/CounterPage';
 
 const mapStateToProps = state => ({
   location: state.router.location
@@ -13,11 +13,12 @@ const mapStateToProps = state => ({
 const ConnectedSwitch = connect(mapStateToProps)(Switch);
 
 const asdf = () => (<div> 1</div>);
+const player = () => (<div>player</div>);
 
 export default () => (
   <App>
     <ConnectedSwitch>
-      <Route path="/player" component={CounterPage} />
+      <Route path="/player" component={player} />
       <Route path="/about" component={asdf} />
       <Route path="/" component={HomePage} />
     </ConnectedSwitch>

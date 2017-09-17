@@ -26,32 +26,29 @@ function downloadProcessChange(a, b) {
   };
 }
 
+function downloadSettingsChange(param, value) {
+  return {
+    type: 'main/setting/downloadSettings/change',
+    param,
+    value
+  };
+}
+
+
 function* login(action) {
   try {
     const a = yield call(pixivLogin, action.username, action.password);
-    yield put(batchActions([loginChange('PHPSESSID', a), snackbarsOpen(`登录成功，获得PHPSESSID：${a}`), loginChange('open', false)]));
+    yield put(batchActions([
+      loginChange('PHPSESSID', a),
+      snackbarsOpen(`登录成功，获得PHPSESSID：${a}`),
+      loginChange('open', false),
+      downloadSettingsChange('PHPSESSID', '')
+    ]));
   } catch (e) {
     yield put(snackbarsOpen(e.message));
   }
 }
-/*
-function DownloadSearchChunk(searchOptions) {
-  return (dispatch) => {
-    if (searchOptions.type === 'string') {
 
-      const a = new DownloadSearch(searchOptions);
-      a.fetchImageCount().then(b => console.log(b)).catch(e => { throw e; });
-
-
-      pixivDownload(searchOptions).then(a => console.log(a))
-        .catch(e => { throw e; });
-    } else if (searchOptions.type === 'illustId') {
-      pixivDownloadIllustId(searchOptions.text).then(a => console.log(a))
-        .catch(e => { throw e; });
-    }
-  };
-}
-*/
 function* search(action) {
   if (action.searchOptions.type === 'string' || action.searchOptions.type === 'number') {
     const ds = new DownloadSearch(action.searchOptions);

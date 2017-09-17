@@ -1,5 +1,4 @@
 import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import createHashHistory from 'history/createHashHistory';
 // import createBrowserHistory from 'history/createBrowserHistory';
@@ -21,7 +20,6 @@ const configureStore = (initialState) => {
   const enhancers = [];
 
   // Thunk Middleware
-  middleware.push(thunk);
   middleware.push(sagaMiddleware);
 
   // Logging Middleware

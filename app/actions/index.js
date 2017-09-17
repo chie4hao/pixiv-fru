@@ -9,11 +9,7 @@ export function forward() {
 }
 
 export function historyPush(pathname) {
-  return (dispatch, getState) => {
-    if (getState().router.location.pathname !== pathname) {
-      dispatch(push(pathname));
-    }
-  };
+  return push(pathname);
 }
 
 export function snackbarsClose() {
