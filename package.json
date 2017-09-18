@@ -182,6 +182,7 @@
     "cheerio": "^1.0.0-rc.2",
     "devtron": "^1.4.0",
     "electron-debug": "^1.2.0",
+    "electron-titlebar": "^0.0.3",
     "font-awesome": "^4.7.0",
     "history": "^4.6.3",
     "material-ui": "^1.0.0-beta.10",

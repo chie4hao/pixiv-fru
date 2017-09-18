@@ -13,12 +13,14 @@ import { MenuItem } from 'material-ui/Menu';
 
 import styles from './Home.css';
 import SearchParamsDialogs from '../containers/SearchParamsDialogs';
+import DownloadResultDialogs from '../containers/DownloadResultDialogs';
 
 class Home extends Component {
   props: {
     HomePage: {},
     searchOptions: {},
     downloadProcess: {},
+    downloadResultOpen: () => void,
     searchOptionsChange: () => void,
     sagaSearch: () => void,
     allDownload: () => void,
@@ -33,11 +35,13 @@ class Home extends Component {
       HomePage,
       searchOptions,
       downloadProcess,
+      downloadResultOpen,
       searchOptionsChange,
       sagaSearch,
       allDownload,
       classes
     } = this.props;
+
     return (
       <Grid
         container
@@ -96,6 +100,7 @@ class Home extends Component {
             searchParamsOpen={this.state.searchParamsOpen}
             searchParamsRequestClose={() => this.setState({ searchParamsOpen: false })}
           />
+          <DownloadResultDialogs />
           <Grid item xs={6} />
           <Grid item xs={3}>
             <Button raised onClick={() => this.setState({ searchParamsOpen: true })}>
@@ -105,6 +110,11 @@ class Home extends Component {
           <Grid item xs={3}>
             <Button raised onClick={() => sagaSearch(searchOptions)}>
                 ddddd
+              </Button>
+          </Grid>
+          <Grid item xs={3}>
+            <Button raised onClick={downloadResultOpen}>
+              openSearchResult
               </Button>
           </Grid>
         </Grid>

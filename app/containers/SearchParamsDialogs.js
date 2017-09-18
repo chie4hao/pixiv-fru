@@ -15,11 +15,11 @@ function mapStateToProps(state) {
   };
 }
 
-function searchParamsChange(a, b) {
+function searchParamsChange(param, value) {
   return {
     type: 'HomePage/searchParams/change',
-    param: a,
-    value: b
+    param,
+    value
   };
 }
 

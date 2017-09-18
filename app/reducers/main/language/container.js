@@ -79,6 +79,9 @@ const container = {
         tool: '工具',
 
         localStorageSave: '保存配置在本地存储中'
+      },
+      downloadResult: {
+        title: '下载结果'
       }
     }
   }

@@ -64,6 +64,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
     this.setState({ settingDrawerOpen: false });
   };
 
+  componentDidMount() {
+    require('electron-titlebar');
+  }
+
   render() {
     const {
       historyPush,
@@ -80,6 +84,9 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
 
     return (
       <div>
+        <div id="electron-titlebar" style={{ position: 'static', height: '29px', backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
+          <div className="drag" style={{ top: '0', left: 0, width: '100%', height: '100%', position: 'absolute' }} />
+        </div>
         {/* <Button onClick={() => snackbarsOpen('sdlfkj')}>
           xianshi
         </Button> */}

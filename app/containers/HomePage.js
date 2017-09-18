@@ -9,7 +9,16 @@ function mapStateToProps(state) {
   return {
     HomePage: state.main.settings.language.HomePage,
     searchOptions: state.HomePage.searchOptions,
-    downloadProcess: state.HomePage.downloadProcess
+    downloadProcess: state.HomePage.downloadProcess,
+    downloadResultOpen: state.HomePage.downloadResult.open
+  };
+}
+
+function downloadResultOpen() {
+  return {
+    type: 'HomePage/downloadResult/change',
+    param: 'open',
+    value: true
   };
 }
 
@@ -35,7 +44,10 @@ function allDownload() {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ searchOptionsChange, sagaSearch, allDownload }, dispatch);
+  return bindActionCreators({ searchOptionsChange,
+    sagaSearch,
+    allDownload,
+    downloadResultOpen }, dispatch);
 }
 
 

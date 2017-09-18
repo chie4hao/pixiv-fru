@@ -4,6 +4,7 @@ import { initialState as initialLogin } from './reducers/main/login';
 import { initialState as initialSnackbars } from './reducers/HomePage/snackbars';
 import { initialState as searchOptions } from './reducers/HomePage/searchOptions';
 import { initialState as downloadProcess } from './reducers/HomePage/downloadProcess';
+import { initialState as downloadResult } from './reducers/HomePage/downloadResult';
 
 const store = configureStore({
   main: {
@@ -14,7 +15,8 @@ const store = configureStore({
     searchParams: JSON.parse(localStorage.searchParams),
     snackbars: initialSnackbars,
     searchOptions,
-    downloadProcess
+    downloadProcess,
+    downloadResult
   }
 });
 
