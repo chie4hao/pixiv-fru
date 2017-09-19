@@ -3,6 +3,7 @@
  */
 
 import { getState } from '../../store';
+import HttpsProxyAgent from 'https-proxy-agent';
 
 function RequestOptions(method, referer) {
   let PHPSESSID = getState().main.settings.downloadSettings.PHPSESSID;
@@ -21,6 +22,7 @@ function RequestOptions(method, referer) {
   headers.Referer = referer;
   this.method = method;
   this.headers = RequestHeaders(headers);
+  this.agent = new HttpsProxyAgent('http://127.0.0.1:2313');
 }
 
 function RequestHeaders(b) {

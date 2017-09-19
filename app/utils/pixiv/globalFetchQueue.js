@@ -23,22 +23,13 @@ const originalFetchText = async (url, options, filepath) => {
       await promisify(fs.unlink)(filepath);
       throw new Error(`${filepath} The Originalfile is incomplete`);
     }
-    return `${filepath} 成功`;
+    return '成功';
   }
-  return `${filepath} 已存在`;
+  return '已存在';
 };
 const downloadSettings = getState().main.settings.downloadSettings;
 
 const htmlFetchQueue = new RetryRequestQueue(htmlFetchText, downloadSettings.HtmlGetCount, downloadSettings.htmlGetRetransmissionCount, ['network timeout at', 'failed, reason:', 'Response timeout while trying to fetch'], downloadSettings.htmlGetTimeout);
 const originalFetchQueue = new RetryRequestQueue(originalFetchText, downloadSettings.OriginalGetCount, downloadSettings.originalOneRetransmissionCount, ['network timeout at', 'failed, reason:', 'The Originalfile is incomplete'], downloadSettings.originalOneGetTimeOut);
-
-// There is only one instance
-/* function htmlFetch(...args) {
-  return htmlFetchQueue.push(...args);
-}
-
-function originalFetch(...args) {
-  return originalFetchQueue.push(...args);
-} */
 
 export { htmlFetchQueue, originalFetchQueue };

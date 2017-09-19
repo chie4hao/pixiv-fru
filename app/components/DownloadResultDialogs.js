@@ -31,45 +31,81 @@ import IconButton from 'material-ui/IconButton';
 import { withStyles } from 'material-ui/styles';
 
 const columnData = [
-  { id: 'name', numeric: false, disablePadding: true, label: 'Dessert (100g serving)' }
+  { id: 'illustId', numeric: false, disablePadding: true, label: 'illustId' },
+  { id: 'name', numeric: true, disablePadding: false, label: 'name' },
+  { id: 'type', numeric: true, disablePadding: false, label: 'type' },
+  { id: 'authorName', numeric: true, disablePadding: false, label: 'authorName' },
+  { id: 'bookmarkCount', numeric: true, disablePadding: false, label: 'bookmarkCount' },
+  { id: 'imageCount', numeric: true, disablePadding: false, label: 'imageCount' },
+  { id: 'status', numeric: true, disablePadding: false, label: 'status' },
 ];
 
 class ConfirmationDialog extends Component {
   props: {
     downloadResultText: {},
-    downloadResult: {},
+    resultData: [],
+    tableState: { selected: [], order: string, orderBy: string },
     classes: {},
     downloadResultChange: (string, string | number | boolean) => void,
-    downloadResultObjectChange: () => void
+    // downloadResultObjectChange: () => void,
+    sortTable: () => void
   }
 
-  createSortHandler = property => event => {
-    const orderBy = property;
+  createSortHandler = property => () => {
     let order = 'desc';
-
-    if (this.props.downloadResult.orderBy === property && this.props.downloadResult.order === 'desc') {
+    if (this.props.tableState.orderBy === property && this.props.tableState.order === 'desc') {
       order = 'asc';
     }
 
-    const data = this.props.downloadResult.data.sort(
-      (a, b) => (order === 'desc' ? b[orderBy] > a[orderBy] : a[orderBy] > b[orderBy]),
-    );
+    return this.props.sortTable(property, order);
 
-    this.props.downloadResultObjectChange({ data, order, orderBy });
+    /*
+    this.props.downloadResultObjectChange({
+      data: data.sort(
+        (a, b) => (order === 'desc' ? b[property] > a[property] : a[property] > b[property]),
+      ),
+      order,
+      orderBy: property
+    });
+    */
   };
+
+  handleClick = (event, id) => {
+    const { selected } = this.props.tableState;
+    const selectedIndex = selected.indexOf(id);
+    let newSelected = [];
+
+    if (selectedIndex === -1) {
+      newSelected = newSelected.concat(selected, id);
+    } else if (selectedIndex === 0) {
+      newSelected = newSelected.concat(selected.slice(1));
+    } else if (selectedIndex === selected.length - 1) {
+      newSelected = newSelected.concat(selected.slice(0, -1));
+    } else if (selectedIndex > 0) {
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1),
+      );
+    }
+
+    return this.props.downloadResultChange('selected', newSelected);
+  };
+
+  isSelected = id => this.props.tableState.selected.indexOf(id) !== -1;
 
   render() {
     const {
       downloadResultText,
-      downloadResult,
+      resultData,
+      tableState,
       classes,
       downloadResultChange
     } = this.props;
-    const numSelected = downloadResult.selected.length;
 
+    const numSelected = tableState.selected.length;
     return (
       <Dialog
-        open={downloadResult.open}
+        open={tableState.open}
         transition={Fade}
         onRequestClose={() => downloadResultChange('open', false)}
       >
@@ -82,8 +118,8 @@ class ConfirmationDialog extends Component {
                 <TableRow>
                   <TableCell checkbox>
                     <Checkbox
-                      indeterminate={numSelected > 0 && numSelected < 5}
-                      checked={numSelected === 5}
+                      indeterminate={numSelected > 0 && numSelected < 2}
+                      checked={numSelected === 2}
                       // onChange={onSelectAllClick}
                     />
                   </TableCell>
@@ -94,8 +130,8 @@ class ConfirmationDialog extends Component {
                       disablePadding={column.disablePadding}
                     >
                       <TableSortLabel
-                        active={downloadResult.orderBy === column.id}
-                        direction={downloadResult.order}
+                        active={tableState.orderBy === column.id}
+                        direction={tableState.order}
                         onClick={this.createSortHandler(column.id)}
                       >
                         {column.label}
@@ -106,23 +142,29 @@ class ConfirmationDialog extends Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {downloadResult.data.map(n => {
-                  // const isSelected = this.isSelected(n.id);
+                {resultData.map(n => {
+                  const isSelected = this.isSelected(n.id);
                   return (
                     <TableRow
                       hover
-                      // onClick={event => this.handleClick(event, n.id)}
+                      onClick={event => this.handleClick(event, n.id)}
                       // onKeyDown={event => this.handleKeyDown(event, n.id)}
                       role="checkbox"
-                      // aria-checked={isSelected}
+                      aria-checked={isSelected}
                       tabIndex={-1}
-                      key={n.id}
-                      // selected={isSelected}
+                      key={n.illustId}
+                      selected={isSelected}
                     >
                       <TableCell checkbox>
-                        <Checkbox checked={true} />
+                        <Checkbox checked={isSelected} />
                       </TableCell>
-                      <TableCell disablePadding>{n.name}</TableCell>
+                      <TableCell disablePadding>{n.illustId}</TableCell>
+                      <TableCell>{n.name}</TableCell>
+                      <TableCell>{n.type}</TableCell>
+                      <TableCell>{n.authorName}</TableCell>
+                      <TableCell>{n.bookmarkCount}</TableCell>
+                      <TableCell>{n.imageCount}</TableCell>
+                      <TableCell>{n.status}</TableCell>
                     </TableRow>
                   );
                 })}

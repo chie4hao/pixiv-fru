@@ -1,6 +1,6 @@
 import $ from 'cheerio';
 import querystring from 'querystring';
-import { getState } from '../../store';
+import { getState, dispatch } from '../../store';
 import { htmlFetchQueue } from './globalFetchQueue';
 import PixivOption from './pixivOption';
 import illustIdToOriginal from './illustIdToOriginal';
@@ -79,6 +79,11 @@ class DownloadSearch {
     if ($1('body').attr('class').indexOf('not-logged-in') !== -1) {
       throw new Error('fetchImageCount ERROR: Not Logged In');
     }
+
+    if (this.searchType === 'number') {
+      this.authorName = $1('#wrapper .layout-a .profile .username').text;
+    }
+
     const span = $1('#wrapper ._unit .count-badge');
     return span.text().match(/^\d*/)[0];
   }
@@ -96,11 +101,27 @@ class DownloadSearch {
         Array.from(dataItems).forEach(dataItem => {
           const illustId = dataItem.illustId;
           const bookmarkCount = dataItem.bookmarkCount;
+          const imageCount = dataItem.pageCount;
+          const authorName = dataItem.userName;
           const minimumBookmark = getState().main.settings.downloadSettings.minimumBookmark;
-          if (bookmarkCount >= minimumBookmark) illustIdArray.push({ illustId });
+          if (bookmarkCount >= minimumBookmark) {
+            illustIdArray.push({ illustId,
+              bookmarkCount,
+              imageCount,
+              authorName
+            });
+          }
         });
         return Promise.all(illustIdArray.map(illust =>
-          (async () => illustIdToOriginal(illust.illustId))()
+          (async () => {
+            const result = await illustIdToOriginal(illust.illustId);
+            // if (result.status !== '已存在') {
+              dispatch({
+                type: 'HomePage/downloadResult/addData', value: Object.assign({}, illust, result)
+              });
+            // }
+            return 0;
+          })()
         ));
       })()
     ));

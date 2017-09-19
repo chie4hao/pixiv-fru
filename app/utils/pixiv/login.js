@@ -4,6 +4,7 @@ import nodeFetch from 'node-fetch';
 import $ from 'cheerio';
 import FormData from 'form-data';
 import { parse } from 'querystring';
+import HttpsProxyAgent from 'https-proxy-agent';
 
 let PHPSESSID = '';
 const submitForm = {};
@@ -28,6 +29,7 @@ function RequestOptions(method, referer, RequestPHPSESSID) {
     'x-requested-with': 'XMLHttpRequest'
   };
   this.method = method;
+  this.agent = new HttpsProxyAgent('http://127.0.0.1:2313');
 }
 
 function CaptchaRequestOptions(method, referer, RequestPHPSESSID) {
@@ -47,6 +49,7 @@ function CaptchaRequestOptions(method, referer, RequestPHPSESSID) {
     'x-requested-with': 'XMLHttpRequest'
   };
   this.method = method;
+  this.agent = new HttpsProxyAgent('http://127.0.0.1:2313');
 }
 
 // function CaptchaOptions(method, referer, RequestPHPSESSID) {
@@ -92,8 +95,11 @@ async function login(pixivId, password) {
     }
   });
 
+  console.log(submitForm);
+
   const loginRes = await nodeFetch('https://accounts.pixiv.net/api/login?lang=zh',
-  { method: 'POST', body: form, headers: (new CaptchaRequestOptions('POST', baseUrl, PHPSESSID)).headers });
+  // { method: 'POST', body: form, headers: (new CaptchaRequestOptions('POST', baseUrl, PHPSESSID)).headers });
+  { ...new CaptchaRequestOptions('POST', baseUrl, PHPSESSID), body: form });
   // console.log(loginRes);
   const loginResJson = await loginRes.json();
   const json = JSON.stringify(loginResJson);

@@ -60,7 +60,7 @@ function* search(action) {
     console.log(result);
   } else if (action.searchOptions.type === 'illustId') {
     const a = yield call(pixivDownloadIllustId, action.searchOptions.text);
-    yield put(snackbarsOpen(a.toString()));
+    yield put(snackbarsOpen(JSON.stringify(a)));
   }
 }
 

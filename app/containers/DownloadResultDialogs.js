@@ -11,7 +11,9 @@ const getSmodeSelected = createSelector(
 function mapStateToProps(state) {
   return {
     downloadResultText: state.main.settings.language.HomePage.downloadResult,
-    downloadResult: state.HomePage.downloadResult
+    downloadResult: state.HomePage.downloadResult,
+    resultData: state.HomePage.downloadResult.resultData,
+    tableState: state.HomePage.downloadResult.tableState
   };
 }
 
@@ -30,8 +32,20 @@ function downloadResultObjectChange(value) {
   };
 }
 
+function sortTable(orderBy, order) {
+  return {
+    type: 'HomePage/downloadResult/sortTable',
+    orderBy,
+    order
+  };
+}
+
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ downloadResultChange, downloadResultObjectChange }, dispatch);
+  return bindActionCreators({
+    downloadResultChange,
+    downloadResultObjectChange,
+    sortTable
+  }, dispatch);
 }
 
 

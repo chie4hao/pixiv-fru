@@ -37,12 +37,14 @@ class RetryRequestQueue extends Queue {
         return result;
       } catch (e) {
         if (this._retryMessage.every(a => e.message.indexOf(a) === -1)) {
-          throw e;
+          return `Error ${e.message}`;
+          // throw e;
         }
         console.warn(e.message);
       }
     }
-    throw new Error(`${args[1]} timeOut retry ${this._retryCount} times`);
+    return `Error retry ${this._retryCount} times`;
+    // throw new Error(`${args[1]} timeOut retry ${this._retryCount} times`);
   }
 }
 

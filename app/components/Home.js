@@ -115,7 +115,7 @@ class Home extends Component {
           <Grid item xs={3}>
             <Button raised onClick={downloadResultOpen}>
               openSearchResult
-              </Button>
+            </Button>
           </Grid>
         </Grid>
 
