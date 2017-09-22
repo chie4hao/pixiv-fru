@@ -1,14 +1,16 @@
 import { combineReducers } from 'redux';
 
-const dataInitialState = [
-];
+const dataInitialState = [];
 
 const tableInitialState = {
   open: false,
   selected: [],
-  order: 'desc',
+  order: 'asc',
   orderBy: 'name',
-  message: 'sldkfj'
+  message: 'sldkfj',
+
+  page: 0,
+  rowsPerPage: 5
 };
 
 function resultData(state = dataInitialState, action) {
@@ -16,10 +18,11 @@ function resultData(state = dataInitialState, action) {
     case 'HomePage/downloadResult/addData':
       if (state.some(a => a.illustId === action.value.illustId)) return state;
       return [...state, action.value];
-    case 'HomePage/downloadResult/sortTable':
-      return state.sort(
-        (a, b) => (action.order === 'desc' ? b[action.orderBy] > a[action.orderBy] : a[action.orderBy] > b[action.orderBy]),
-      );
+    case 'HomePage/downloadResult/sortTable': {
+      return (action.order === 'desc')
+        ? state.sort((a, b) => (b[action.orderBy] > a[action.orderBy] ? 1 : -1))
+        : state.sort((a, b) => (a[action.orderBy] > b[action.orderBy] ? 1 : -1));
+    }
     default:
       return state;
   }

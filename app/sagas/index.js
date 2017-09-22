@@ -1,7 +1,16 @@
-import { call, put, takeLatest, take } from 'redux-saga/effects';
+import { all, call, put, takeLatest, take } from 'redux-saga/effects';
 import { batchActions } from 'redux-batched-actions';
+import $ from 'cheerio';
+
+import { htmlFetchQueue } from '../utils/pixiv/globalFetchQueue';
+import PixivOption from '../utils/pixiv/pixivOption';
+import illustIdToOriginal from '../utils/pixiv/illustIdToOriginal';
+
 import pixivLogin from '../utils/pixiv/login';
-import { DownloadSearch, pixivDownload, pixivDownloadIllustId } from '../utils/pixiv/pixivAPI';
+import { DownloadSearch, pixivDownloadIllustId } from '../utils/pixiv/pixivAPI';
+
+import { getState } from '../store';
+
 
 function snackbarsOpen(message) {
   return {
@@ -34,7 +43,6 @@ function downloadSettingsChange(param, value) {
   };
 }
 
-
 function* login(action) {
   try {
     const a = yield call(pixivLogin, action.username, action.password);
@@ -49,15 +57,65 @@ function* login(action) {
   }
 }
 
+function* downloadIllustId(illust) {
+  const result = yield call(illustIdToOriginal, illust.illustId);
+  yield put({
+    type: 'HomePage/downloadResult/addData', value: Object.assign({}, illust, result)
+  });
+}
+
+function* downloadPage(index) {
+  const htmlDecoded = yield call([htmlFetchQueue, htmlFetchQueue.push], `${this.searchUrl}${index + 1}`, new PixivOption('GET', 'http://www.pixiv.net/'));
+  const imageWork = $('#wrapper ._unit .column-search-result #js-mount-point-search-result-list', htmlDecoded);
+  const dataItems = JSON.parse(imageWork[0].attribs['data-items']);
+  const illustIdArray = [];
+  Array.from(dataItems).forEach(dataItem => {
+    const illustId = Number.parseInt(dataItem.illustId, 10);
+    const bookmarkCount = Number.parseInt(dataItem.bookmarkCount, 10);
+    const imageCount = Number.parseInt(dataItem.pageCount, 10);
+    const authorName = dataItem.userName;
+    const minimumBookmark = getState().main.settings.downloadSettings.minimumBookmark;
+    if (bookmarkCount >= minimumBookmark) {
+      illustIdArray.push({
+        illustId,
+        bookmarkCount,
+        imageCount,
+        authorName
+      });
+    }
+  });
+  return yield all(illustIdArray.map(illust => call(downloadIllustId, illust)));
+}
+
+function* downloadAuthor(page) {
+  const htmlDecoded = yield call([htmlFetchQueue, htmlFetchQueue.push], `${this.searchUrl}${page + 1}`, new PixivOption('GET', 'http://www.pixiv.net/'));
+  const imageWork = $('#wrapper ._unit ._image-items .image-item .work', htmlDecoded);
+  const authorName = $('#wrapper .profile .user-name', htmlDecoded)[0].children[0].data;
+  return yield all(Array.from(imageWork).map(imageItem => {
+    const illustId = imageItem.attribs.href.match(/\d*$/)[0];
+    return call(downloadIllustId, { illustId, authorName });
+  }));
+}
+
 function* search(action) {
   if (action.searchOptions.type === 'string' || action.searchOptions.type === 'number') {
     const ds = new DownloadSearch(action.searchOptions);
-    const imageCount = yield call([ds, ds.fetchImageCount]);
+    let imageCount = yield call([ds, ds.fetchImageCount]);
     yield put(batchActions([snackbarsOpen(imageCount), downloadProcessChange('open', true)]));
     yield take('saga_allDownload');
-    ds.imageCount = imageCount;
-    const result = yield call([ds, ds.downloadAll]);
-    console.log(result);
+    // ds.imageCount = imageCount;
+
+    if (action.searchOptions.type === 'string') {
+      imageCount = Math.ceil(imageCount / 40);
+      yield all(Array.from({ length: imageCount > 1000 ? 1000 : imageCount }).map((value, index) => call([ds, downloadPage], index)));
+    } else {
+      imageCount = Math.ceil(imageCount / 20);
+      yield all(Array.from({ length: imageCount > 1000 ? 1000 : imageCount }).map((value, index) => call([ds, downloadAuthor], index)));
+    }
+
+    // const result = yield all(Array.from({ length: imageCount > 1000 ? 1000 : imageCount }).map((value, index) => call([ds, downloadPage], index)));
+
+    // const result = yield call([ds, ds.downloadAll]);
   } else if (action.searchOptions.type === 'illustId') {
     const a = yield call(pixivDownloadIllustId, action.searchOptions.text);
     yield put(snackbarsOpen(JSON.stringify(a)));

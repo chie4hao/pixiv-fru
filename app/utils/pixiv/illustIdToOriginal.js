@@ -16,7 +16,7 @@ const illustIdOriginal = async (illustId) => {
   const filepath = './app/utils/pixiv/resources/';
 
   const config = getState().main.settings.downloadSettings;
-  const bookmarkCount = $('.work-info dl .rated-count', wrapper)[0].children[0].data;
+  const bookmarkCount = Number.parseInt($('.work-info dl .rated-count', wrapper)[0].children[0].data, 10);
 
   if ($('.player', worksDisplay).length !== 0) {
     if (!config.playerModel) return { name, status: '已过滤', type: 'ugoira', bookmarkCount, imageCount: 1 };

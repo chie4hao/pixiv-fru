@@ -2,8 +2,8 @@
  * Created by chie on 2016/5/5.
  */
 
-import { getState } from '../../store';
 import HttpsProxyAgent from 'https-proxy-agent';
+import { getState } from '../../store';
 
 function RequestOptions(method, referer) {
   let PHPSESSID = getState().main.settings.downloadSettings.PHPSESSID;

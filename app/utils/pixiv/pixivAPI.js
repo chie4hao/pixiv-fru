@@ -99,9 +99,9 @@ class DownloadSearch {
         const dataItems = JSON.parse(imageWork[0].attribs['data-items']);
         const illustIdArray = [];
         Array.from(dataItems).forEach(dataItem => {
-          const illustId = dataItem.illustId;
-          const bookmarkCount = dataItem.bookmarkCount;
-          const imageCount = dataItem.pageCount;
+          const illustId = Number.parseInt(dataItem.illustId, 10);
+          const bookmarkCount = Number.parseInt(dataItem.bookmarkCount, 10);
+          const imageCount = Number.parseInt(dataItem.pageCount, 10);
           const authorName = dataItem.userName;
           const minimumBookmark = getState().main.settings.downloadSettings.minimumBookmark;
           if (bookmarkCount >= minimumBookmark) {
@@ -115,11 +115,9 @@ class DownloadSearch {
         return Promise.all(illustIdArray.map(illust =>
           (async () => {
             const result = await illustIdToOriginal(illust.illustId);
-            // if (result.status !== '已存在') {
-              dispatch({
-                type: 'HomePage/downloadResult/addData', value: Object.assign({}, illust, result)
-              });
-            // }
+            dispatch({
+              type: 'HomePage/downloadResult/addData', value: Object.assign({}, illust, result)
+            });
             return 0;
           })()
         ));

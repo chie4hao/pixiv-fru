@@ -17,7 +17,9 @@ import Divider from 'material-ui/Divider';
 import Table, {
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
+  TablePagination,
   TableRow,
   TableSortLabel,
 } from 'material-ui/Table';
@@ -31,10 +33,10 @@ import IconButton from 'material-ui/IconButton';
 import { withStyles } from 'material-ui/styles';
 
 const columnData = [
-  { id: 'illustId', numeric: false, disablePadding: true, label: 'illustId' },
-  { id: 'name', numeric: true, disablePadding: false, label: 'name' },
-  { id: 'type', numeric: true, disablePadding: false, label: 'type' },
-  { id: 'authorName', numeric: true, disablePadding: false, label: 'authorName' },
+  { id: 'illustId', numeric: true, disablePadding: true, label: 'illustId' },
+  { id: 'name', numeric: false, disablePadding: false, label: 'name' },
+  { id: 'type', numeric: false, disablePadding: false, label: 'type' },
+  { id: 'authorName', numeric: false, disablePadding: false, label: 'authorName' },
   { id: 'bookmarkCount', numeric: true, disablePadding: false, label: 'bookmarkCount' },
   { id: 'imageCount', numeric: true, disablePadding: false, label: 'imageCount' },
   { id: 'status', numeric: true, disablePadding: false, label: 'status' },
@@ -87,7 +89,6 @@ class ConfirmationDialog extends Component {
         selected.slice(selectedIndex + 1),
       );
     }
-
     return this.props.downloadResultChange('selected', newSelected);
   };
 
@@ -102,10 +103,20 @@ class ConfirmationDialog extends Component {
       downloadResultChange
     } = this.props;
 
-    const numSelected = tableState.selected.length;
+    const {
+      open,
+      selected,
+      order,
+      orderBy,
+
+      page,
+      rowsPerPage
+    } = tableState;
+
+    const numSelected = selected.length;
     return (
       <Dialog
-        open={tableState.open}
+        open={open}
         transition={Fade}
         onRequestClose={() => downloadResultChange('open', false)}
       >
@@ -118,8 +129,8 @@ class ConfirmationDialog extends Component {
                 <TableRow>
                   <TableCell checkbox>
                     <Checkbox
-                      indeterminate={numSelected > 0 && numSelected < 2}
-                      checked={numSelected === 2}
+                      indeterminate={numSelected > 0 && numSelected < resultData.length}
+                      checked={numSelected === resultData.length}
                       // onChange={onSelectAllClick}
                     />
                   </TableCell>
@@ -130,8 +141,8 @@ class ConfirmationDialog extends Component {
                       disablePadding={column.disablePadding}
                     >
                       <TableSortLabel
-                        active={tableState.orderBy === column.id}
-                        direction={tableState.order}
+                        active={orderBy === column.id}
+                        direction={order}
                         onClick={this.createSortHandler(column.id)}
                       >
                         {column.label}
@@ -142,13 +153,13 @@ class ConfirmationDialog extends Component {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {resultData.map(n => {
-                  const isSelected = this.isSelected(n.id);
+                {resultData.slice(page * rowsPerPage, (page + 1) * rowsPerPage).map(n => {
+                  const isSelected = this.isSelected(n.illustId);
                   return (
                     <TableRow
                       hover
-                      onClick={event => this.handleClick(event, n.id)}
-                      // onKeyDown={event => this.handleKeyDown(event, n.id)}
+                      onClick={event => this.handleClick(event, n.illustId)}
+                      // onKeyDown={event => this.handleKeyDown(event, n.illustId)}
                       role="checkbox"
                       aria-checked={isSelected}
                       tabIndex={-1}
@@ -158,17 +169,26 @@ class ConfirmationDialog extends Component {
                       <TableCell checkbox>
                         <Checkbox checked={isSelected} />
                       </TableCell>
-                      <TableCell disablePadding>{n.illustId}</TableCell>
+                      <TableCell disablePadding numeric>{n.illustId}</TableCell>
                       <TableCell>{n.name}</TableCell>
                       <TableCell>{n.type}</TableCell>
                       <TableCell>{n.authorName}</TableCell>
-                      <TableCell>{n.bookmarkCount}</TableCell>
-                      <TableCell>{n.imageCount}</TableCell>
+                      <TableCell numeric>{n.bookmarkCount}</TableCell>
+                      <TableCell numeric>{n.imageCount}</TableCell>
                       <TableCell>{n.status}</TableCell>
                     </TableRow>
                   );
                 })}
               </TableBody>
+              <TableFooter>
+                <TablePagination
+                  count={resultData.length}
+                  rowsPerPage={rowsPerPage}
+                  page={page}
+                  onChangePage={(event, value) => downloadResultChange('page', value)}
+                  onChangeRowsPerPage={(event) => downloadResultChange('rowsPerPage', event.target.value)}
+                />
+              </TableFooter>
             </Table>
           </Paper>
         </DialogContent>
