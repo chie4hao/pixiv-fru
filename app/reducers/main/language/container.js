@@ -81,7 +81,20 @@ const container = {
         localStorageSave: '保存配置在本地存储中'
       },
       downloadResult: {
-        title: '下载结果'
+        title: '下载结果',
+        illustId: '图片ID',
+        type: '种类',
+        bookmarkCount: '收藏数',
+        imageCount: '图片数',
+        authorName: '作者名',
+        name: '图片名',
+        status: '状态',
+
+        processLength: '总数',
+        successCount: '成功数',
+        errorCount: '失败数',
+        totalCount: '检索数',
+        searchCount: '筛选数'
       }
     }
   }

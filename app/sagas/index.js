@@ -43,6 +43,37 @@ function downloadSettingsChange(param, value) {
   };
 }
 
+function downloadResultChange(param, value) {
+  return {
+    type: 'HomePage/downloadResult/change',
+    param,
+    value
+  };
+}
+
+function downloadResultObjectChange(value) {
+  return {
+    type: 'HomePage/downloadResult/objectChange',
+    value
+  };
+}
+
+function downloadResultAddData(value, error) {
+  return {
+    type: 'HomePage/downloadResult/addData',
+    value,
+    error
+  };
+}
+
+function downloadResultSearchOnePage(totalIncrease, searchIncrease) {
+  return {
+    type: 'HomePage/downloadResult/searchOnePage',
+    totalIncrease,
+    searchIncrease
+  };
+}
+
 function* login(action) {
   try {
     const a = yield call(pixivLogin, action.username, action.password);
@@ -58,10 +89,18 @@ function* login(action) {
 }
 
 function* downloadIllustId(illust) {
-  const result = yield call(illustIdToOriginal, illust.illustId);
-  yield put({
-    type: 'HomePage/downloadResult/addData', value: Object.assign({}, illust, result)
-  });
+  const result = Object.assign({}, illust);
+  let error = true;
+  try {
+    Object.assign(result, illust, yield call(illustIdToOriginal, illust.illustId));
+    if (!result.status.startsWith('Error')) {
+      error = false;
+    }
+  } catch (e) {
+    Object.assign(result, { status: e.message });
+  } finally {
+    yield put(downloadResultAddData(result, error));
+  }
 }
 
 function* downloadPage(index) {
@@ -69,6 +108,7 @@ function* downloadPage(index) {
   const imageWork = $('#wrapper ._unit .column-search-result #js-mount-point-search-result-list', htmlDecoded);
   const dataItems = JSON.parse(imageWork[0].attribs['data-items']);
   const illustIdArray = [];
+
   Array.from(dataItems).forEach(dataItem => {
     const illustId = Number.parseInt(dataItem.illustId, 10);
     const bookmarkCount = Number.parseInt(dataItem.bookmarkCount, 10);
@@ -84,7 +124,9 @@ function* downloadPage(index) {
       });
     }
   });
-  return yield all(illustIdArray.map(illust => call(downloadIllustId, illust)));
+
+  yield put(downloadResultSearchOnePage(dataItems.length, illustIdArray.length));
+  yield all(illustIdArray.map(illust => call(downloadIllustId, illust)));
 }
 
 function* downloadAuthor(page) {
@@ -100,22 +142,23 @@ function* downloadAuthor(page) {
 function* search(action) {
   if (action.searchOptions.type === 'string' || action.searchOptions.type === 'number') {
     const ds = new DownloadSearch(action.searchOptions);
-    let imageCount = yield call([ds, ds.fetchImageCount]);
+    const imageCount = Math.min(yield call([ds, ds.fetchImageCount]), 40000);
     yield put(batchActions([snackbarsOpen(imageCount), downloadProcessChange('open', true)]));
     yield take('saga_allDownload');
-    // ds.imageCount = imageCount;
+
+    yield put({ type: 'HomePage/downloadResult/begin', processLength: imageCount });
 
     if (action.searchOptions.type === 'string') {
-      imageCount = Math.ceil(imageCount / 40);
-      yield all(Array.from({ length: imageCount > 1000 ? 1000 : imageCount }).map((value, index) => call([ds, downloadPage], index)));
+      yield all(Array.from({
+        length: Math.ceil(imageCount / 40)
+      }).map((value, index) => call([ds, downloadPage], index)));
     } else {
-      imageCount = Math.ceil(imageCount / 20);
-      yield all(Array.from({ length: imageCount > 1000 ? 1000 : imageCount }).map((value, index) => call([ds, downloadAuthor], index)));
+      yield all(Array.from({
+        length: Math.ceil(imageCount / 20)
+      }).map((value, index) => call([ds, downloadAuthor], index)));
     }
 
-    // const result = yield all(Array.from({ length: imageCount > 1000 ? 1000 : imageCount }).map((value, index) => call([ds, downloadPage], index)));
-
-    // const result = yield call([ds, ds.downloadAll]);
+    yield put({ type: 'HomePage/downloadResult/end' });
   } else if (action.searchOptions.type === 'illustId') {
     const a = yield call(pixivDownloadIllustId, action.searchOptions.text);
     yield put(snackbarsOpen(JSON.stringify(a)));

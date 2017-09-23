@@ -6,7 +6,14 @@ import { htmlFetchQueue, originalFetchQueue } from './globalFetchQueue';
 
 const illustIdOriginal = async (illustId) => {
   const mediumUrl = `https://www.pixiv.net/member_illust.php?mode=medium&illust_id=${illustId}`;
-  const wrapper = $('#wrapper', await htmlFetchQueue.push(mediumUrl, new PixivOption('GET', 'http://www.pixiv.net/')));
+
+  const illustIdPage = await htmlFetchQueue.push(mediumUrl, new PixivOption('GET', 'http://www.pixiv.net/'));
+
+  if (illustIdPage.startsWith('Error')) {
+    throw new Error(illustIdPage);
+  }
+
+  const wrapper = $('#wrapper', illustIdPage);
 
   const worksDisplay = $('.works_display', wrapper);
 

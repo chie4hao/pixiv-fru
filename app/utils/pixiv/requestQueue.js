@@ -32,7 +32,8 @@ class RetryRequestQueue extends Queue {
   async push(...args) {
     for (let i = 0; i < this._retryCount; i += 1) {
       try {
-        args[1].timeout = this._retryTimeout;
+        Object.assign(args[1], { timeout: this._retryTimeout });
+        // args[1].timeout = this._retryTimeout;
         const result = await super.push(this.task, ...args);
         return result;
       } catch (e) {

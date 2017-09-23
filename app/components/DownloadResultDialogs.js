@@ -10,6 +10,7 @@ import Slide from 'material-ui/transitions/Slide';
 import Grow from 'material-ui/transitions/Grow';
 import Fade from 'material-ui/transitions/Fade';
 import Collapse from 'material-ui/transitions//Collapse';
+import { LinearProgress } from 'material-ui/Progress';
 
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
@@ -33,13 +34,13 @@ import IconButton from 'material-ui/IconButton';
 import { withStyles } from 'material-ui/styles';
 
 const columnData = [
-  { id: 'illustId', numeric: true, disablePadding: true, label: 'illustId' },
-  { id: 'name', numeric: false, disablePadding: false, label: 'name' },
-  { id: 'type', numeric: false, disablePadding: false, label: 'type' },
-  { id: 'authorName', numeric: false, disablePadding: false, label: 'authorName' },
-  { id: 'bookmarkCount', numeric: true, disablePadding: false, label: 'bookmarkCount' },
-  { id: 'imageCount', numeric: true, disablePadding: false, label: 'imageCount' },
-  { id: 'status', numeric: true, disablePadding: false, label: 'status' },
+  { id: 'illustId', numeric: false, disablePadding: false, compact: false },
+  { id: 'type', numeric: true, disablePadding: true, compact: true },
+  { id: 'bookmarkCount', numeric: true, disablePadding: true, compact: true },
+  { id: 'imageCount', numeric: true, disablePadding: true, compact: true },
+  { id: 'authorName', numeric: true, disablePadding: true, compact: true },
+  { id: 'name', numeric: true, disablePadding: true, compact: true },
+  { id: 'status', numeric: true, disablePadding: true, compact: true },
 ];
 
 class ConfirmationDialog extends Component {
@@ -60,16 +61,6 @@ class ConfirmationDialog extends Component {
     }
 
     return this.props.sortTable(property, order);
-
-    /*
-    this.props.downloadResultObjectChange({
-      data: data.sort(
-        (a, b) => (order === 'desc' ? b[property] > a[property] : a[property] > b[property]),
-      ),
-      order,
-      orderBy: property
-    });
-    */
   };
 
   handleClick = (event, id) => {
@@ -108,9 +99,13 @@ class ConfirmationDialog extends Component {
       selected,
       order,
       orderBy,
-
       page,
-      rowsPerPage
+      rowsPerPage,
+      processLength,
+      successCount,
+      errorCount,
+      totalCount,
+      searchCount
     } = tableState;
 
     const numSelected = selected.length;
@@ -119,11 +114,21 @@ class ConfirmationDialog extends Component {
         open={open}
         transition={Fade}
         onRequestClose={() => downloadResultChange('open', false)}
+        maxWidth={'md'}
+        className={classes.dialog}
       >
         <DialogTitle>{downloadResultText.title}</DialogTitle>
         <Divider />
         <DialogContent>
-          <Paper>
+          <Paper className={classes.paper}>
+            <div className={classes.tyContainer}>
+              <Typography type="caption"> {downloadResultText.successCount}: {successCount} </Typography>
+              <Typography color="accent"> {downloadResultText.errorCount}: {errorCount} </Typography>
+              <Typography> {downloadResultText.searchCount}: {searchCount} </Typography>
+              <Typography color="secondary"> {downloadResultText.totalCount}: {totalCount} {downloadResultText.processLength}: {processLength}</Typography>
+            </div>
+            {processLength !== 0 ? <LinearProgress color="accent" mode="buffer" value={((successCount * 100) / searchCount) * (totalCount / processLength)} valueBuffer={(totalCount * 100) / processLength} /> : <LinearProgress mode="determinate" value={100} />}
+
             <Table>
               <TableHead>
                 <TableRow>
@@ -139,13 +144,14 @@ class ConfirmationDialog extends Component {
                       key={column.id}
                       numeric={column.numeric}
                       disablePadding={column.disablePadding}
+                      compact={column.compact}
                     >
                       <TableSortLabel
                         active={orderBy === column.id}
                         direction={order}
                         onClick={this.createSortHandler(column.id)}
                       >
-                        {column.label}
+                        {downloadResultText[column.id]}
                       </TableSortLabel>
                     </TableCell>
                     )
@@ -169,13 +175,13 @@ class ConfirmationDialog extends Component {
                       <TableCell checkbox>
                         <Checkbox checked={isSelected} />
                       </TableCell>
-                      <TableCell disablePadding numeric>{n.illustId}</TableCell>
-                      <TableCell>{n.name}</TableCell>
-                      <TableCell>{n.type}</TableCell>
-                      <TableCell>{n.authorName}</TableCell>
-                      <TableCell numeric>{n.bookmarkCount}</TableCell>
-                      <TableCell numeric>{n.imageCount}</TableCell>
-                      <TableCell>{n.status}</TableCell>
+                      <TableCell>{n.illustId}</TableCell>
+                      <TableCell compact disablePadding numeric>{n.type}</TableCell>
+                      <TableCell compact disablePadding numeric>{n.bookmarkCount}</TableCell>
+                      <TableCell compact disablePadding numeric>{n.imageCount}</TableCell>
+                      <TableCell compact disablePadding numeric>{n.authorName}</TableCell>
+                      <TableCell compact disablePadding numeric>{n.name}</TableCell>
+                      <TableCell compact disablePadding numeric>{n.status}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -222,6 +228,26 @@ const muiStyles = theme => ({
   sizeLabel: {
     width: 20
   },
+
+  paper: {
+    width: '100%',
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto',
+  },
+
+  dialog: {
+    maxWidth: 1000
+  },
+
+  dialogContent: {
+  },
+  tyContainer: {
+    height: 64,
+    justifyContent: 'center',
+    display: 'flex',
+    position: 'relative',
+    alignItems: 'center'
+  }
 });
 
 export default withStyles(muiStyles)(ConfirmationDialog);

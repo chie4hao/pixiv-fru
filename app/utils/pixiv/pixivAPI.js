@@ -75,7 +75,13 @@ class DownloadSearch {
   */
 
   async fetchImageCount() {
-    const $1 = $.load(await htmlFetchQueue.push(`${this.searchUrl}1`, new PixivOption('GET', 'http://www.pixiv.net/')));
+    const imagePage = await htmlFetchQueue.push(`${this.searchUrl}1`, new PixivOption('GET', 'http://www.pixiv.net/'));
+
+    if (imagePage.startsWith('Error')) {
+      throw new Error(imagePage);
+    }
+
+    const $1 = $.load(imagePage);
     if ($1('body').attr('class').indexOf('not-logged-in') !== -1) {
       throw new Error('fetchImageCount ERROR: Not Logged In');
     }
@@ -116,7 +122,7 @@ class DownloadSearch {
           (async () => {
             const result = await illustIdToOriginal(illust.illustId);
             dispatch({
-              type: 'HomePage/downloadResult/addData', value: Object.assign({}, illust, result)
+              type: 'HomePage/downloadResult/addData', value: Object.assign(result, illust)
             });
             return 0;
           })()
