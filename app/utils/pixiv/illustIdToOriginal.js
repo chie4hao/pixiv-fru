@@ -63,7 +63,7 @@ const illustIdOriginal = async (illustId) => {
 
     return {
       name,
-      status: result !== '' ? result : '全部成功',
+      status: result !== '' ? result : '成功',
       type: 'manga',
       bookmarkCount,
       imageCount: urlList.length

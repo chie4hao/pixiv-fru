@@ -3,7 +3,7 @@ export const initialState = {
 
       // 包含其中任意一个关键词
   // tagExistsFilter: [],
-  tagExistsFilter: '',
+  tagExistsFilter: '100users入り 200users入り 250users入り 300users入り 500users入り 1000users入り 2000users入り 3000users入り 5000users入り 10000users入り 20000users入り 30000users入り 40000users入り 50000users入り 100000users入り',
 
       // 排除的关键词
   tagNotExistsFilter: 'BL 腐 漫画 講座 刀剣乱 黒子 弱虫ペダル 世界一初恋 進撃の巨人 ハイキュー 銀魂 アザゼルさん',
@@ -18,6 +18,7 @@ export const initialState = {
   mode: 0,
 
       // 排序方法，目前支持'date'(按旧排序)和'date_d'(按最新排序)
+      // popular_d 仅会员可用，暂不支持
   order: true,
 
       // 最小宽度

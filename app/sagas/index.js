@@ -92,7 +92,7 @@ function* downloadIllustId(illust) {
   const result = Object.assign({}, illust);
   let error = true;
   try {
-    Object.assign(result, illust, yield call(illustIdToOriginal, illust.illustId));
+    Object.assign(result, yield call(illustIdToOriginal, illust.illustId), illust);
     if (!result.status.startsWith('Error')) {
       error = false;
     }
@@ -142,10 +142,12 @@ function* downloadAuthor(page) {
 function* search(action) {
   if (action.searchOptions.type === 'string' || action.searchOptions.type === 'number') {
     const ds = new DownloadSearch(action.searchOptions);
-    const imageCount = Math.min(yield call([ds, ds.fetchImageCount]), 40000);
+    let imageCount = yield call([ds, ds.fetchImageCount]);
     yield put(batchActions([snackbarsOpen(imageCount), downloadProcessChange('open', true)]));
+
     yield take('saga_allDownload');
 
+    imageCount = Math.min(imageCount, 40000);
     yield put({ type: 'HomePage/downloadResult/begin', processLength: imageCount });
 
     if (action.searchOptions.type === 'string') {
