@@ -7,7 +7,7 @@ import { htmlFetchQueue, originalFetchQueue } from './globalFetchQueue';
 const illustIdOriginal = async (illustId) => {
   const mediumUrl = `https://www.pixiv.net/member_illust.php?mode=medium&illust_id=${illustId}`;
 
-  const illustIdPage = await htmlFetchQueue.push(mediumUrl, new PixivOption('GET', 'http://www.pixiv.net/'));
+  const illustIdPage = await htmlFetchQueue.unshift(mediumUrl, new PixivOption('GET', 'http://www.pixiv.net/'));
 
   if (illustIdPage.startsWith('Error')) {
     throw new Error(illustIdPage);
@@ -29,7 +29,7 @@ const illustIdOriginal = async (illustId) => {
     if (!config.playerModel) return { name, status: '已过滤', type: 'ugoira', bookmarkCount, imageCount: 1 };
 
     const ugoiraUrl = `https://www.pixiv.net/member_illust.php?mode=ugoira_view&illust_id=${illustId}`;
-    const ugoiraText = await htmlFetchQueue.push(ugoiraUrl, new PixivOption('GET', mediumUrl));
+    const ugoiraText = await htmlFetchQueue.unshift(ugoiraUrl, new PixivOption('GET', mediumUrl));
     const a = ugoiraText.match(/https:\\\/\\\/.+\\\/img-zip-ugoira\\\/img.+zip/)[0].replace(/\\/g, '');
     const status = await originalFetchQueue.push(a, new PixivOption('GET', ugoiraUrl), `${filepath}${illustId}_${name}.zip`);
 
@@ -43,7 +43,7 @@ const illustIdOriginal = async (illustId) => {
   } else if ($('a', worksDisplay).length !== 0) {
     // 漫画模式
     const mangaUrl = `https://www.pixiv.net/member_illust.php?mode=manga&illust_id=${illustId}`;
-    const mangaText = await htmlFetchQueue.push(mangaUrl, new PixivOption('GET', mediumUrl));
+    const mangaText = await htmlFetchQueue.unshift(mangaUrl, new PixivOption('GET', mediumUrl));
     // const count = $('.page-menu .total', mangaText).text();
     // 65047449 not run, debug tomorrow
     const urlList = Array.prototype.map.call($('#main .manga .item-container a', mangaText), a => `https://www.pixiv.net${a.attribs.href}`);
@@ -52,7 +52,7 @@ const illustIdOriginal = async (illustId) => {
 
     const allResult = await Promise.all(urlList.map((mangaOriginal =>
       (async () => {
-        const mangaOriginalUrl = $('img', await htmlFetchQueue.push(mangaOriginal, new PixivOption('GET', mangaUrl))).attr('src');
+        const mangaOriginalUrl = $('img', await htmlFetchQueue.unshift(mangaOriginal, new PixivOption('GET', mangaUrl))).attr('src');
         // 这句不安全
         const mangaOriginalType = mangaOriginalUrl.match(/_p\d*\.\w*$/)[0];
         const filename = `${illustId}_${name}${mangaOriginalType}`.replace(/\\|\/|\?|\*|:|"|<|>|\|/g, '');

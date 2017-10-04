@@ -7,7 +7,7 @@ import PixivOption from '../utils/pixiv/pixivOption';
 import illustIdToOriginal from '../utils/pixiv/illustIdToOriginal';
 
 import pixivLogin from '../utils/pixiv/login';
-import { DownloadSearch, pixivDownloadIllustId } from '../utils/pixiv/pixivAPI';
+import { DownloadSearch } from '../utils/pixiv/pixivAPI';
 
 import { getState } from '../store';
 
@@ -162,7 +162,7 @@ function* search(action) {
 
     yield put({ type: 'HomePage/downloadResult/end' });
   } else if (action.searchOptions.type === 'illustId') {
-    const a = yield call(pixivDownloadIllustId, action.searchOptions.text);
+    const a = yield call(illustIdToOriginal, action.searchOptions.text);
     yield put(snackbarsOpen(JSON.stringify(a)));
   }
 }

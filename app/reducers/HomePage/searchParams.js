@@ -1,48 +1,48 @@
 
 export const initialState = {
 
-      // 包含其中任意一个关键词
+  // 包含其中任意一个关键词
   // tagExistsFilter: [],
   tagExistsFilter: '100users入り 200users入り 250users入り 300users入り 500users入り 1000users入り 2000users入り 3000users入り 5000users入り 10000users入り 20000users入り 30000users入り 40000users入り 50000users入り 100000users入り',
 
-      // 排除的关键词
+  // 排除的关键词
   tagNotExistsFilter: 'BL 腐 漫画 講座 刀剣乱 黒子 弱虫ペダル 世界一初恋 進撃の巨人 ハイキュー 銀魂 アザゼルさん',
 
-      // 搜索类别，0 1 illust 2 manga 3 ugoria
+  // 搜索类别，0 1 illust 2 manga 3 ugoria
   type: 0,
 
-      // 搜索'标签'或者'标题/简介','s_tag' or 's_tc' or's_tag_full'   0 s_tag 1 s_tag_full 2 s_tc
+  // 搜索'标签'或者'标题/简介','s_tag' or 's_tc' or's_tag_full'   0 s_tag 1 s_tag_full 2 s_tc
   s_mode: 0,
 
-      // 作品，0 1 safe 2 r18
+  // 作品，0 1 safe 2 r18
   mode: 0,
 
-      // 排序方法，目前支持'date'(按旧排序)和'date_d'(按最新排序)
-      // popular_d 仅会员可用，暂不支持
+  // 排序方法，目前支持'date'(按旧排序)和'date_d'(按最新排序)
+  // popular_d 仅会员可用，暂不支持
   order: true,
 
-      // 最小宽度
+  // 最小宽度
   wlt: '',
 
-      // 最小高度
+  // 最小高度
   hlt: '',
 
-      // 最大宽度
+  // 最大宽度
   wgt: '',
 
-      // 最大高度
+  // 最大高度
   hgt: '',
 
-      // 图片长宽比例
+  // 图片长宽比例
   ratio: '',
 
-      // 使用工具
+  // 使用工具
   tool: '',
 
-      // 筛选起止时间
+  // 筛选起止时间
   scd: '',
 
-      // 结束时间
+  // 结束时间
   ecd: ''
 };
 

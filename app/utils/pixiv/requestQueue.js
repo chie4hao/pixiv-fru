@@ -29,7 +29,28 @@ class RetryRequestQueue extends Queue {
     this.process();
   }
 
+  async asyncTask(insertAtFront, ...args) {
+    for (let i = 0; i < this._retryCount; i += 1) {
+      try {
+        Object.assign(args[1], { timeout: this._retryTimeout });
+        // args[1].timeout = this._retryTimeout;
+        const result = insertAtFront ? await super.unshift(this.task, ...args)
+          : await super.push(this.task, ...args);
+        return result;
+      } catch (e) {
+        if (this._retryMessage.every(a => e.message.indexOf(a) === -1)) {
+          return `Error ${e.message}`;
+          // throw e;
+        }
+        console.warn(e.message);
+      }
+    }
+    return `Error retry ${this._retryCount} times`;
+  }
+
   async push(...args) {
+    return this.asyncTask(false, ...args);
+    /*
     for (let i = 0; i < this._retryCount; i += 1) {
       try {
         Object.assign(args[1], { timeout: this._retryTimeout });
@@ -46,6 +67,11 @@ class RetryRequestQueue extends Queue {
     }
     return `Error retry ${this._retryCount} times`;
     // throw new Error(`${args[1]} timeOut retry ${this._retryCount} times`);
+    */
+  }
+
+  async unshift(...args) {
+    return this.asyncTask(true, ...args);
   }
 }
 
