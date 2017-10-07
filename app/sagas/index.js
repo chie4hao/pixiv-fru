@@ -105,7 +105,7 @@ function* downloadIllustId(illust) {
 
 function* downloadPage(index) {
   const htmlDecoded = yield call([htmlFetchQueue, htmlFetchQueue.push], `${this.searchUrl}${index + 1}`, new PixivOption('GET', 'http://www.pixiv.net/'));
-  const imageWork = $('#wrapper ._unit .column-search-result #js-mount-point-search-result-list', htmlDecoded);
+  const imageWork = $('#wrapper ._unit #js-mount-point-search-result-list', htmlDecoded);
   const dataItems = JSON.parse(imageWork[0].attribs['data-items']);
   const illustIdArray = [];
 

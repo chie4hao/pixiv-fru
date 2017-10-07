@@ -22,7 +22,7 @@ function RequestOptions(method, referer) {
   headers.Referer = referer;
   this.method = method;
   this.headers = RequestHeaders(headers);
-  this.agent = new HttpsProxyAgent('http://127.0.0.1:2313');
+  this.agent = new HttpsProxyAgent('http://127.0.0.1:50582');
 }
 
 function RequestHeaders(b) {

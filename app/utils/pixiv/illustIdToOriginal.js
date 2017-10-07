@@ -31,7 +31,8 @@ const illustIdOriginal = async (illustId) => {
     const ugoiraUrl = `https://www.pixiv.net/member_illust.php?mode=ugoira_view&illust_id=${illustId}`;
     const ugoiraText = await htmlFetchQueue.unshift(ugoiraUrl, new PixivOption('GET', mediumUrl));
     const a = ugoiraText.match(/https:\\\/\\\/.+\\\/img-zip-ugoira\\\/img.+zip/)[0].replace(/\\/g, '');
-    const status = await originalFetchQueue.push(a, new PixivOption('GET', ugoiraUrl), `${filepath}${illustId}_${name}.zip`);
+    const filename = `${illustId}_${name}.zip`.replace(/\\|\/|\?|\*|:|"|<|>|\|/g, '');
+    const status = await originalFetchQueue.push(a, new PixivOption('GET', ugoiraUrl), filepath + filename);
 
     return {
       name,

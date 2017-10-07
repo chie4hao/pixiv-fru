@@ -1,5 +1,5 @@
 export const initialState = {
-  PHPSESSID: '8318723_5b8558536e61e7f94b98feac57a2cf50',
+  PHPSESSID: '8318723_b339df052cde9f47a7391a15dac9f0a6',
 
     // 是否下载普通单图
   OriginModel: true,

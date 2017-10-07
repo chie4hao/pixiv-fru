@@ -11,6 +11,7 @@ import Grow from 'material-ui/transitions/Grow';
 import Fade from 'material-ui/transitions/Fade';
 import Collapse from 'material-ui/transitions//Collapse';
 import { LinearProgress } from 'material-ui/Progress';
+import Tooltip from 'material-ui/Tooltip';
 
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
@@ -34,13 +35,13 @@ import IconButton from 'material-ui/IconButton';
 import { withStyles } from 'material-ui/styles';
 
 const columnData = [
-  { id: 'illustId', numeric: false, disablePadding: false, compact: false },
-  { id: 'type', numeric: true, disablePadding: true, compact: true },
-  { id: 'bookmarkCount', numeric: true, disablePadding: true, compact: true },
-  { id: 'imageCount', numeric: true, disablePadding: true, compact: true },
-  { id: 'authorName', numeric: true, disablePadding: true, compact: true },
-  { id: 'name', numeric: true, disablePadding: true, compact: true },
-  { id: 'status', numeric: true, disablePadding: true, compact: true },
+  { id: 'illustId', numeric: false, disablePadding: false },
+  { id: 'type', numeric: true, disablePadding: true, },
+  { id: 'bookmarkCount', numeric: true, disablePadding: false },
+  { id: 'imageCount', numeric: true, disablePadding: true },
+  { id: 'authorName', numeric: true, disablePadding: false },
+  { id: 'name', numeric: true, disablePadding: true },
+  { id: 'status', numeric: true, disablePadding: false },
 ];
 
 class ConfirmationDialog extends Component {
@@ -83,6 +84,14 @@ class ConfirmationDialog extends Component {
     return this.props.downloadResultChange('selected', newSelected);
   };
 
+  handleSelectAllClick = (event, checked) => {
+    console.log(checked);
+    if (checked) {
+      return this.props.downloadResultChange('selected', this.props.resultData.map(n => n.illustId));
+    }
+    this.props.downloadResultChange('selected', []);
+  }
+
   isSelected = id => this.props.tableState.selected.indexOf(id) !== -1;
 
   render() {
@@ -122,37 +131,44 @@ class ConfirmationDialog extends Component {
         <DialogContent>
           <Paper className={classes.paper}>
             <div className={classes.tyContainer}>
-              <Typography type="caption"> {downloadResultText.successCount}: {successCount} </Typography>
-              <Typography color="accent"> {downloadResultText.errorCount}: {errorCount} </Typography>
-              <Typography> {downloadResultText.searchCount}: {searchCount} </Typography>
-              <Typography color="secondary"> {downloadResultText.totalCount}: {totalCount} {downloadResultText.processLength}: {processLength}</Typography>
+              <Typography type="caption"> {downloadResultText.successCount}: {successCount}</Typography>
+              <div style={{ width: "20px" }}></div>
+              <Typography color="accent"> {downloadResultText.errorCount}: {errorCount}</Typography>
+              <div style={{ width: "20px" }}></div>              
+              <Typography> {downloadResultText.searchCount}: {searchCount}</Typography>
+              <div style={{ width: "20px" }}></div>              
+              <Typography color="secondary">{downloadResultText.totalCount}: {totalCount}</Typography>
+              <div style={{ width: "20px" }}></div>                            
+              <Typography color="secondary">{downloadResultText.processLength}: {processLength}</Typography>
             </div>
             {processLength !== 0 ? <LinearProgress color="accent" mode="buffer" value={((successCount * 100) / searchCount) * (totalCount / processLength)} valueBuffer={(totalCount * 100) / processLength} /> : <LinearProgress mode="determinate" value={100} />}
 
             <Table>
               <TableHead>
                 <TableRow>
-                  <TableCell checkbox>
+                  <TableCell padding="checkbox">
                     <Checkbox
                       indeterminate={numSelected > 0 && numSelected < resultData.length}
                       checked={numSelected === resultData.length}
-                      // onChange={onSelectAllClick}
+                      onChange={this.handleSelectAllClick}
                     />
                   </TableCell>
                   {columnData.map(column => (
                     <TableCell
                       key={column.id}
                       numeric={column.numeric}
-                      disablePadding={column.disablePadding}
-                      compact={column.compact}
+                      padding={column.disablePadding ? 'none' : 'default'}
+                      // compact={column.compact}
                     >
-                      <TableSortLabel
-                        active={orderBy === column.id}
-                        direction={order}
-                        onClick={this.createSortHandler(column.id)}
-                      >
-                        {downloadResultText[column.id]}
-                      </TableSortLabel>
+                      <Tooltip title="Sort" placement="bottom-end" enterDelay={300}>
+                        <TableSortLabel
+                          active={orderBy === column.id}
+                          direction={order}
+                          onClick={this.createSortHandler(column.id)}
+                        >
+                          {downloadResultText[column.id]}
+                        </TableSortLabel>
+                      </Tooltip>
                     </TableCell>
                     )
                   , this)}
@@ -172,16 +188,16 @@ class ConfirmationDialog extends Component {
                       key={n.illustId}
                       selected={isSelected}
                     >
-                      <TableCell checkbox>
+                      <TableCell padding="checkbox">
                         <Checkbox checked={isSelected} />
                       </TableCell>
                       <TableCell>{n.illustId}</TableCell>
-                      <TableCell compact disablePadding numeric>{n.type}</TableCell>
-                      <TableCell compact disablePadding numeric>{n.bookmarkCount}</TableCell>
-                      <TableCell compact disablePadding numeric>{n.imageCount}</TableCell>
-                      <TableCell compact disablePadding numeric>{n.authorName}</TableCell>
-                      <TableCell compact disablePadding numeric>{n.name}</TableCell>
-                      <TableCell compact disablePadding numeric>{n.status}</TableCell>
+                      <TableCell padding="none" numeric>{n.type}</TableCell>
+                      <TableCell numeric>{n.bookmarkCount}</TableCell>
+                      <TableCell padding="none" numeric>{n.imageCount}</TableCell>
+                      <TableCell numeric>{n.authorName}</TableCell>
+                      <TableCell padding="none" numeric>{n.name}</TableCell>
+                      <TableCell numeric>{n.status}</TableCell>
                     </TableRow>
                   );
                 })}
