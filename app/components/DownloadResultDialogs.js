@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
 
-import { FormControlLabel } from 'material-ui/Form';
-import Switch from 'material-ui/Switch';
-import TextField from 'material-ui/TextField';
-import Menu, { MenuItem } from 'material-ui/Menu';
 import Dialog, { DialogActions, DialogContent, DialogTitle } from 'material-ui/Dialog';
 import Button from 'material-ui/Button';
 import Slide from 'material-ui/transitions/Slide';
@@ -13,7 +9,6 @@ import Collapse from 'material-ui/transitions//Collapse';
 import { LinearProgress } from 'material-ui/Progress';
 import Tooltip from 'material-ui/Tooltip';
 
-import List, { ListItem, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 
 import Table, {
@@ -25,12 +20,9 @@ import Table, {
   TableRow,
   TableSortLabel,
 } from 'material-ui/Table';
-import Toolbar from 'material-ui/Toolbar';
 import Typography from 'material-ui/Typography';
 import Paper from 'material-ui/Paper';
 import Checkbox from 'material-ui/Checkbox';
-import IconButton from 'material-ui/IconButton';
-
 
 import { withStyles } from 'material-ui/styles';
 
@@ -132,13 +124,13 @@ class ConfirmationDialog extends Component {
           <Paper className={classes.paper}>
             <div className={classes.tyContainer}>
               <Typography type="caption"> {downloadResultText.successCount}: {successCount}</Typography>
-              <div style={{ width: "20px" }}></div>
+              <div style={{ width: '20px' }} />
               <Typography color="accent"> {downloadResultText.errorCount}: {errorCount}</Typography>
-              <div style={{ width: "20px" }}></div>              
+              <div style={{ width: '20px' }} />
               <Typography> {downloadResultText.searchCount}: {searchCount}</Typography>
-              <div style={{ width: "20px" }}></div>              
+              <div style={{ width: '20px' }} />
               <Typography color="secondary">{downloadResultText.totalCount}: {totalCount}</Typography>
-              <div style={{ width: "20px" }}></div>                            
+              <div style={{ width: '20px' }} />
               <Typography color="secondary">{downloadResultText.processLength}: {processLength}</Typography>
             </div>
             {processLength !== 0 ? <LinearProgress color="accent" mode="buffer" value={((successCount * 100) / searchCount) * (totalCount / processLength)} valueBuffer={(totalCount * 100) / processLength} /> : <LinearProgress mode="determinate" value={100} />}
@@ -203,13 +195,15 @@ class ConfirmationDialog extends Component {
                 })}
               </TableBody>
               <TableFooter>
-                <TablePagination
-                  count={resultData.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  onChangePage={(event, value) => downloadResultChange('page', value)}
-                  onChangeRowsPerPage={(event) => downloadResultChange('rowsPerPage', event.target.value)}
-                />
+                <TableRow>
+                  <TablePagination
+                    count={resultData.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={(event, value) => downloadResultChange('page', value)}
+                    onChangeRowsPerPage={(event) => downloadResultChange('rowsPerPage', event.target.value)}
+                  />
+                </TableRow>
               </TableFooter>
             </Table>
           </Paper>
