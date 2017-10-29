@@ -46,7 +46,7 @@ class Home extends Component {
       <Grid
         container
         className={classes.main}
-        align="center"
+        alignItems="center"
         direction="row"
         justify="center"
         spacing={0}
@@ -54,7 +54,7 @@ class Home extends Component {
         <Grid
           container
           className={classes.searchContainer}
-          align="center"
+          alignItems="center"
           direction="row"
           justify="center"
           spacing={16}
