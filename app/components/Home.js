@@ -26,6 +26,7 @@ class Home extends Component {
     allDownload: () => void,
     classes: {}
   }
+
   state = {
     searchParamsOpen: false
   };
