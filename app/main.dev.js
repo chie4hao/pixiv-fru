@@ -65,6 +65,8 @@ app.on('ready', async () => {
     height: 728
   });
 
+  mainWindow.setMenu(null);
+
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 
   // @TODO: Use 'ready-to-show' event

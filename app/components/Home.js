@@ -60,7 +60,7 @@ class Home extends Component {
           justify="center"
           spacing={16}
         >
-          <div className={classes.pixivIcon} />
+          <div className={styles.pixivIcon} />
           <Grid item xs={12}>
             <FormControl className={classes.searchForm}>
               <InputLabel htmlFor="name-simple">{HomePage.searchTextField}</InputLabel>
@@ -148,14 +148,6 @@ const muiStyles = theme => ({
   searchType: {
     width: 150,
     marginLeft: 12
-  },
-  pixivIcon: {
-    position: 'absolute',
-    top: 'calc(50% - 130px)',
-    backgroundImage: 'url(components/pixiv.svg)',
-    width: '180px',
-    height: '70px',
-    textAlign: 'center'
   },
   textField: {
     width: 250

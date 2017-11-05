@@ -5,6 +5,7 @@ import Fade from 'material-ui/transitions/Fade';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import TextField from 'material-ui/TextField';
 import { withStyles } from 'material-ui/styles';
+import styles from './Home.css';
 
 class LoginDialogs extends Component {
   props: {
@@ -24,7 +25,7 @@ class LoginDialogs extends Component {
         onRequestClose={() => loginChange('open', false)}
       >
         <DialogTitle />
-        <div className={classes.pixivIcon} />
+        <div className={styles.loginIcon} />
         <DialogContent>
           <List>
             <ListItem>
@@ -79,14 +80,6 @@ class LoginDialogs extends Component {
 }
 
 const muiStyles = theme => ({
-  pixivIcon: {
-    backgroundImage: 'url(components/pixiv.svg)',
-    width: '180px',
-    height: '70px',
-    textAlign: 'center',
-    marginLeft: 'auto',
-    marginRight: 'auto'
-  },
   textField: {
     width: 250
   }
