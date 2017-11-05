@@ -6,7 +6,8 @@ import HttpsProxyAgent from 'https-proxy-agent';
 import { getState } from '../../store';
 
 function RequestOptions(method, referer) {
-  let PHPSESSID = getState().main.settings.downloadSettings.PHPSESSID;
+  const downloadSettings = getState().main.settings.downloadSettings;
+  let PHPSESSID = downloadSettings.PHPSESSID;
   if (PHPSESSID === '') PHPSESSID = getState().main.login.PHPSESSID;
 
   const headers = {
@@ -22,7 +23,9 @@ function RequestOptions(method, referer) {
   headers.Referer = referer;
   this.method = method;
   this.headers = RequestHeaders(headers);
-  this.agent = new HttpsProxyAgent('http://127.0.0.1:50582');
+  if (downloadSettings.proxyOpen === true) {
+    this.agent = new HttpsProxyAgent(`http://${downloadSettings.proxyHost}:${downloadSettings.proxyPort}`);
+  }
 }
 
 function RequestHeaders(b) {

@@ -21,6 +21,9 @@ const container = {
       }
     },
     SettingsDrawer: {
+      proxyOpen: '是否开启代理',
+      proxyHost: '地址',
+      proxyPort: '端口',
       downloadSettingsHeader: '下载设置',
       PHPSESSID: 'PHPSESSID',
       OriginalGetCount: '最大并行图片请求数量',

@@ -1,13 +1,14 @@
 import { all, call, put, takeLatest, take } from 'redux-saga/effects';
 import { batchActions } from 'redux-batched-actions';
 import $ from 'cheerio';
+import HttpsProxyAgent from 'https-proxy-agent';
 
 import { htmlFetchQueue } from '../utils/pixiv/globalFetchQueue';
 import PixivOption from '../utils/pixiv/pixivOption';
 import illustIdToOriginal from '../utils/pixiv/illustIdToOriginal';
+import { DownloadSearch } from '../utils/pixiv/pixivAPI';
 
 import pixivLogin from '../utils/pixiv/login';
-import { DownloadSearch } from '../utils/pixiv/pixivAPI';
 
 import { getState } from '../store';
 
@@ -77,6 +78,7 @@ function downloadResultSearchOnePage(totalIncrease, searchIncrease) {
 function* login(action) {
   try {
     const a = yield call(pixivLogin, action.username, action.password);
+    console.log(a);
     yield put(batchActions([
       loginChange('PHPSESSID', a),
       snackbarsOpen(`登录成功，获得PHPSESSID：${a}`),

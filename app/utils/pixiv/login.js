@@ -5,6 +5,7 @@ import $ from 'cheerio';
 import FormData from 'form-data';
 import { parse } from 'querystring';
 import HttpsProxyAgent from 'https-proxy-agent';
+import { getState } from '../../store';
 
 let PHPSESSID = '';
 const submitForm = {};
@@ -29,7 +30,11 @@ function RequestOptions(method, referer, RequestPHPSESSID) {
     'x-requested-with': 'XMLHttpRequest'
   };
   this.method = method;
-  this.agent = new HttpsProxyAgent('http://127.0.0.1:2313');
+  const downloadSettings = getState().main.settings.downloadSettings;
+  console.log(`http://${downloadSettings.proxyHost}:${downloadSettings.proxyPort}`);
+  if (downloadSettings.proxyOpen === true) {
+    this.agent = new HttpsProxyAgent(`http://${downloadSettings.proxyHost}:${downloadSettings.proxyPort}`);
+  }
 }
 
 function CaptchaRequestOptions(method, referer, RequestPHPSESSID) {
@@ -49,7 +54,11 @@ function CaptchaRequestOptions(method, referer, RequestPHPSESSID) {
     'x-requested-with': 'XMLHttpRequest'
   };
   this.method = method;
-  this.agent = new HttpsProxyAgent('http://127.0.0.1:2313');
+  const downloadSettings = getState().main.settings.downloadSettings;
+  console.log(`http://${downloadSettings.proxyHost}:${downloadSettings.proxyPort}`);
+  if (downloadSettings.proxyOpen === true) {
+    this.agent = new HttpsProxyAgent(`http://${downloadSettings.proxyHost}:${downloadSettings.proxyPort}`);
+  }
 }
 
 // function CaptchaOptions(method, referer, RequestPHPSESSID) {
@@ -150,3 +159,4 @@ export default async function pixivLogin(username, password, captcha) {
   const a = await login(username, password, captcha);
   return a;
 }
+

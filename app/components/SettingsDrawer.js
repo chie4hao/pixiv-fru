@@ -8,7 +8,7 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import ListSubheader from 'material-ui/List/ListSubheader';
 import Divider from 'material-ui/Divider';
 import { withStyles } from 'material-ui/styles';
-
+import Collapse from 'material-ui/transitions/Collapse';
 import { htmlFetchQueue, originalFetchQueue } from '../utils/pixiv/globalFetchQueue';
 
 class SettingsDrawer extends Component {
@@ -43,6 +43,41 @@ class SettingsDrawer extends Component {
               subheader={<ListSubheader>{settingsDrawer.downloadSettingsHeader}</ListSubheader>}
               className={classes.list}
             >
+              <ListItem>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={settings.downloadSettings.proxyOpen}
+                      onChange={(event, checked) => downloadSettingsChange('proxyOpen', checked)}
+                    />
+                }
+                  label={settingsDrawer.proxyOpen}
+                />
+              </ListItem>
+              <Collapse in={settings.downloadSettings.proxyOpen} transitionDuration="auto" unmountOnExit>
+                <ListItem className={classes.nested}>
+                  <TextField
+                    label={settingsDrawer.proxyHost}
+                    value={settings.downloadSettings.proxyHost}
+                    className={classes.textField}
+                    onChange={(event) => {
+                      downloadSettingsChange('proxyHost', event.target.value);
+                    }}
+                    margin="normal"
+                  />
+                  <div className={classes.sizeLabel} />
+                  <TextField
+                    type="number"
+                    label={settingsDrawer.proxyPort}
+                    value={settings.downloadSettings.proxyPort}
+                    className={classes.textField}
+                    onChange={(event) => {
+                      downloadSettingsChange('proxyPort', event.target.value);
+                    }}
+                    margin="normal"
+                  />
+                </ListItem>
+              </Collapse>
               <ListItem>
                 <TextField
                   label={settingsDrawer.PHPSESSID}

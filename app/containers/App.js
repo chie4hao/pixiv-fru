@@ -14,6 +14,7 @@ import { bindActionCreators } from 'redux';
 import { createSelector } from 'reselect';
 import Snackbar from 'material-ui/Snackbar';
 import Slide from 'material-ui/transitions/Slide';
+import Fade from 'material-ui/transitions/Fade';
 
 import LoginDialogs from './LoginDialogs';
 import SettingsDrawer from './SettingsDrawer';
@@ -87,7 +88,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
           open={snackbars.open}
           autoHideDuration={4e3}
           onRequestClose={snackbarsClose}
-          transition={<Slide direction="up" />}
+          transition={Fade}
           SnackbarContentProps={{
             'aria-describedby': 'message-id',
           }}
