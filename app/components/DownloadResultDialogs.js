@@ -77,7 +77,6 @@ class ConfirmationDialog extends Component {
   };
 
   handleSelectAllClick = (event, checked) => {
-    console.log(checked);
     if (checked) {
       return this.props.downloadResultChange('selected', this.props.resultData.map(n => n.illustId));
     }
