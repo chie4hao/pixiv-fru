@@ -114,7 +114,6 @@ class ConfirmationDialog extends Component {
         open={open}
         transition={Fade}
         onRequestClose={() => downloadResultChange('open', false)}
-        maxWidth={'md'}
         className={classes.dialog}
       >
         <DialogTitle>{downloadResultText.title}</DialogTitle>
@@ -245,7 +244,6 @@ const muiStyles = theme => ({
   },
 
   dialog: {
-    maxWidth: 1000
   },
 
   dialogContent: {

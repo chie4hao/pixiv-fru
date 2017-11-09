@@ -5,7 +5,7 @@ export const initialState = {
 
   proxyPort: 49792,
 
-  PHPSESSID: '8318723_b339df052cde9f47a7391a15dac9f0a6',
+  PHPSESSID: '8318723_e5f1406781ce04228acfe865ed01d1d0',
 
     // 是否下载普通单图
   OriginModel: true,

@@ -13,12 +13,10 @@ const mapStateToProps = state => ({
 const ConnectedSwitch = connect(mapStateToProps)(Switch);
 
 const asdf = () => (<div> 1</div>);
-const player = () => (<div>player</div>);
 
 export default () => (
   <App>
     <ConnectedSwitch>
-      <Route path="/player" component={player} />
       <Route path="/about" component={asdf} />
       <Route path="/" component={HomePage} />
     </ConnectedSwitch>

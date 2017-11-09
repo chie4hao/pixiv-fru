@@ -24,7 +24,7 @@ import * as IndexActions from '../actions/index';
 
 const getSelected = createSelector(
   state => state.router.location.pathname,
-  pathname => ['/', '/player', '/about'].findIndex(value => value === pathname)
+  pathname => ['/', '/about'].findIndex(value => value === pathname)
 );
 
 function mapStateToProps(state) {
@@ -122,15 +122,15 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
                 icon={favoritesIcon}
                 onClick={() => selected !== 0 && historyPush('/')}
               />
-              <Tab
+              {/* <Tab
                 label={titleName.player}
                 icon={favoritesIcon}
                 onClick={() => selected !== 1 && historyPush('/player')}
-              />
+              /> */}
               <Tab
                 label={titleName.about}
                 icon={favoritesIcon}
-                onClick={() => selected !== 2 && historyPush('/about')}
+                onClick={() => selected !== 1 && historyPush('/about')}
               />
             </Tabs>
             <IconButton color="default">
