@@ -49,10 +49,13 @@ const container = {
     HomePage: {
       searchTextField: '搜索内容',
       searchType: {
+        title: '搜索类型',
         string: '根据字符串搜索',
         number: '按作者ID搜索',
         illustId: '按illustId搜索'
       },
+      searchStart: '开始搜索',
+      downloadStart: '下载！',
       searchParams: {
         title: '搜索选项',
         type: {

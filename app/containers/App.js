@@ -14,6 +14,7 @@ import { bindActionCreators } from 'redux';
 import { createSelector } from 'reselect';
 import Snackbar from 'material-ui/Snackbar';
 import Slide from 'material-ui/transitions/Slide';
+import Typography from 'material-ui/Typography';
 import Fade from 'material-ui/transitions/Fade';
 
 import LoginDialogs from './LoginDialogs';
@@ -116,7 +117,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
             <IconButton color="default">
               <Icon className="fa fa-arrow-right" onClick={forward} />
             </IconButton> */}
-            <Tabs value={selected} onChange={() => {}} >
+            {/* <Typography type="title" color="inherit">
+              Title
+            </Typography> */}
+            <Tabs
+              value={selected}
+              onChange={() => {}}
+              fullWidth
+            >
               <Tab
                 label={titleName.download}
                 icon={favoritesIcon}
@@ -136,7 +144,10 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
             <IconButton color="default">
               <Icon className="fa fa-gear" onClick={() => this.setState({ settingDrawerOpen: true })} />
             </IconButton>
-            <Button onClick={() => loginChange('open', true)}>
+            <Button
+              style={{ textAlign: 'right' }}
+              onClick={() => loginChange('open', true)}
+            >
               {titleName.login}
             </Button>
             <LoginDialogs />

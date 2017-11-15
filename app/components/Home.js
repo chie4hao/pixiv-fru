@@ -70,7 +70,7 @@ class Home extends Component {
               />
             </FormControl>
             <FormControl className={classes.searchType}>
-              <InputLabel htmlFor="name-error">Age</InputLabel>
+              <InputLabel htmlFor="name-error">{HomePage.searchType.title}</InputLabel>
               <Select
                 value={searchOptions.type}
                 onChange={(event) => searchOptionsChange('type', event.target.value)}
@@ -102,26 +102,33 @@ class Home extends Component {
             searchParamsRequestClose={() => this.setState({ searchParamsOpen: false })}
           />
           <DownloadResultDialogs />
-          <Grid item xs={6} />
-          <Grid item xs={3}>
+          {downloadProcess.open ? <Grid item xs={4} /> : <Grid item xs={6} />
+          }
+          <Grid item xs={2}>
             <Button raised onClick={() => this.setState({ searchParamsOpen: true })}>
-                Open simple dialog
-              </Button>
+              {HomePage.searchParams.title}
+            </Button>
           </Grid>
-          <Grid item xs={3}>
-            <Button raised onClick={() => sagaSearch(searchOptions)}>
-                ddddd
-              </Button>
+          <Grid item xs={2}>
+            <Button raised onClick={() => sagaSearch(searchOptions)} color="primary">
+              {HomePage.searchStart}
+            </Button>
           </Grid>
-          <Grid item xs={3}>
+          {downloadProcess.open ? <Grid item xs={2}>
+            <Button raised disabled={!downloadProcess.open} onClick={allDownload} color="accent">
+              {HomePage.downloadStart}
+            </Button>
+          </Grid> : null
+          }
+          <Grid item xs={2}>
             <Button raised onClick={downloadResultOpen}>
-              openSearchResult
+              {HomePage.downloadResult.title}
             </Button>
           </Grid>
         </Grid>
 
-        { downloadProcess.open ?
-          <Button disabled={!downloadProcess.open} onClick={allDownload}>sdfsdf</Button> : null }
+        { /* downloadProcess.open ?
+          <Button disabled={!downloadProcess.open} onClick={allDownload}>{HomePage.downloadStart}</Button> : null */ }
         {/* <div className={styles.container} data-tid="container">
             <h2>Home</h2>
             <Link to="/about">to Counter</Link>

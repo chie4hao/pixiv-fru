@@ -207,11 +207,11 @@ class ConfirmationDialog extends Component {
           </Paper>
         </DialogContent>
         <Divider />
-        <DialogActions>
+        {/* <DialogActions>
           <Button color="primary">
             {'lsdkfj'}
           </Button>
-        </DialogActions>
+        </DialogActions> */}
       </Dialog>
     );
   }
