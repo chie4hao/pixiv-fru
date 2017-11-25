@@ -41,7 +41,8 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators(IndexActions, dispatch);
 }
 
-const favoritesIcon = <Icon className="fa fa-arrow-left" />;
+const downloadIcon = <Icon className="fa fa-download" />;
+const aboutIcon = <Icon className="fa fa-user" />;
 
 export default connect(mapStateToProps, mapDispatchToProps)(class App extends Component {
   props: {
@@ -127,7 +128,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
             >
               <Tab
                 label={titleName.download}
-                icon={favoritesIcon}
+                icon={downloadIcon}
                 onClick={() => selected !== 0 && historyPush('/')}
               />
               {/* <Tab
@@ -137,7 +138,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
               /> */}
               <Tab
                 label={titleName.about}
-                icon={favoritesIcon}
+                icon={aboutIcon}
                 onClick={() => selected !== 1 && historyPush('/about')}
               />
             </Tabs>
