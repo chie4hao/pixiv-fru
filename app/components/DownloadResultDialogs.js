@@ -36,6 +36,14 @@ const columnData = [
   { id: 'status', numeric: true, disablePadding: false },
 ];
 
+const transition = props => (
+  <Grow
+    in={false}
+    // style={{ transformOrigin: '0 0 0' }}
+    timeout={1700}
+    {...props}
+  />);
+
 class ConfirmationDialog extends Component {
   props: {
     downloadResultText: {},
@@ -112,9 +120,10 @@ class ConfirmationDialog extends Component {
     return (
       <Dialog
         open={open}
-        transition={Fade}
+        transition={transition}
         onRequestClose={() => downloadResultChange('open', false)}
         className={classes.dialog}
+        maxWidth={'md'}
       >
         <DialogTitle>{downloadResultText.title}</DialogTitle>
         <Divider />

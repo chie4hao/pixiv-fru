@@ -110,7 +110,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
           open={this.state.settingDrawerOpen}
           onRequestClose={this.handleSettingDrawerClose}
         />
-        <AppBar id="asdf" position="static">
+        <AppBar position="static">
           <Toolbar>
             {/* <IconButton color="default">
               <Icon className="fa fa-arrow-left" onClick={back} />
@@ -142,11 +142,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
                 onClick={() => selected !== 1 && historyPush('/about')}
               />
             </Tabs>
-            <IconButton color="default">
+            <IconButton
+              style={{ marginRight: 40, right: 100, position: 'absolute' }}
+              color="default"
+            >
               <Icon className="fa fa-gear" onClick={() => this.setState({ settingDrawerOpen: true })} />
             </IconButton>
             <Button
-              style={{ textAlign: 'right' }}
+              style={{ marginRight: 40, right: 0, position: 'absolute' }}
               onClick={() => loginChange('open', true)}
             >
               {titleName.login}
