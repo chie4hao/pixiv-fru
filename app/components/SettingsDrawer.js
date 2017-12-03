@@ -4,6 +4,7 @@ import { FormControlLabel } from 'material-ui/Form';
 import Switch from 'material-ui/Switch';
 import TextField from 'material-ui/TextField';
 import Drawer from 'material-ui/Drawer';
+import Button from 'material-ui/Button';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import ListSubheader from 'material-ui/List/ListSubheader';
 import Divider from 'material-ui/Divider';
@@ -19,6 +20,10 @@ class SettingsDrawer extends Component {
     onRequestClose: () => void,
     downloadSettingsChange: () => void,
     classes: {}
+  }
+
+  handleSave = () => {
+    localStorage.settings = JSON.stringify(this.props.settings);
   }
 
   render() {
@@ -188,6 +193,11 @@ class SettingsDrawer extends Component {
                 }
                   label={settingsDrawer.playerModel}
                 />
+              </ListItem>
+              <ListItem>
+                <Button raised onClick={this.handleSave} color="primary">
+                  {settingsDrawer.localStorageSave}
+                </Button>
               </ListItem>
             </List>
           </div>

@@ -1,11 +1,11 @@
 export const initialState = {
-  proxyOpen: true,
+  proxyOpen: false,
 
   proxyHost: '127.0.0.1',
 
-  proxyPort: 49792,
+  proxyPort: 0,
 
-  PHPSESSID: '8318723_e5f1406781ce04228acfe865ed01d1d0',
+  PHPSESSID: '',
 
     // 是否下载普通单图
   OriginModel: true,

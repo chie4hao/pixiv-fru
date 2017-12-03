@@ -2,8 +2,8 @@ import { initialState as initialSearchParams } from '../reducers/HomePage/search
 import { initialState as initialSettings } from '../reducers/main/settings';
 
 // delete later
-localStorage.settings = JSON.stringify(initialSettings);
-localStorage.searchParams = JSON.stringify(initialSearchParams);
+// localStorage.settings = JSON.stringify(initialSettings);
+// localStorage.searchParams = JSON.stringify(initialSearchParams);
 
 if (!localStorage.getItem('settings')) {
   localStorage.settings = JSON.stringify(initialSettings);

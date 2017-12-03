@@ -27,15 +27,15 @@ const container = {
       downloadSettingsHeader: '下载设置',
       PHPSESSID: 'PHPSESSID',
       OriginalGetCount: '最大并行图片请求数量',
-      HtmlGetCount: '最大html请求数量',
+      HtmlGetCount: '最大并行html请求数量',
 
-      htmlGetTimeout: 'html请求超时时间',
-      originalOneGetTimeOut: '图片请求超时时间',
+      htmlGetTimeout: 'html请求超时时间(ms)',
+      originalOneGetTimeOut: '图片请求超时时间(ms)',
 
       htmlGetRetransmissionCount: 'html请求超时重传次数',
       originalOneRetransmissionCount: '图片请求超时重传次数',
 
-      minimumBookmark: '最小收藏数',
+      minimumBookmark: '最小收藏数(低于的过滤)',
          // 是否下载普通单图
       OriginModel: '是否下载普通单图',
 
@@ -44,7 +44,7 @@ const container = {
 
           // 是否下载动图
       playerModel: '是否下载动图',
-
+      localStorageSave: '保存配置在本地存储中'
     },
     HomePage: {
       searchTextField: '搜索内容',

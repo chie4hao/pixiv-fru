@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
 
-const dataInitialState = [{
+const dataInitialState = [];
+
+/* {
   illustId: 64757031,
   bookmarkCount: 0,
   imageCount: 1,
@@ -17,7 +19,7 @@ const dataInitialState = [{
   name: '無題',
   status: '已存在',
   type: 'illustrations'
-}];
+} */
 
 const tableInitialState = {
   open: false,
@@ -27,7 +29,7 @@ const tableInitialState = {
   message: 'sldkfj',
 
   page: 0,
-  rowsPerPage: 5,
+  rowsPerPage: 10,
 
   processLength: 0,
 

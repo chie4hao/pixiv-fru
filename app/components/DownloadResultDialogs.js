@@ -120,7 +120,7 @@ class ConfirmationDialog extends Component {
     return (
       <Dialog
         open={open}
-        transition={transition}
+        transition={Fade}
         onRequestClose={() => downloadResultChange('open', false)}
         className={classes.dialog}
         maxWidth={'md'}

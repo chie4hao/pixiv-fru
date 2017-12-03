@@ -21,13 +21,7 @@ const illustIdOriginal = async (illustId) => {
 
   const name = $('.title', wrapper)[0].children[0].data;
 
-/*if (process.env.NODE_ENV === 'production') {
-  module.exports = require('./configureStore.prod'); // eslint-disable-line global-require
-} else {
-  module.exports = require('./configureStore.dev'); // eslint-disable-line global-require
-}*/
-  console.log(process.env.NODE_ENV);
-  const filepath = './app/utils/pixiv/resources/';
+  const filepath = process.env.NODE_ENV === 'production' ? './images/' : './app/utils/pixiv/resources/';
 
   const config = getState().main.settings.downloadSettings;
   const bookmarkCount = Number.parseInt($('.work-info dl .rated-count', wrapper)[0].children[0].data, 10);

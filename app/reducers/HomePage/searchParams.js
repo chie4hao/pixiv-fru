@@ -3,10 +3,14 @@ export const initialState = {
 
   // 包含其中任意一个关键词
   // tagExistsFilter: [],
-  tagExistsFilter: '100users入り 200users入り 250users入り 300users入り 500users入り 1000users入り 2000users入り 3000users入り 5000users入り 10000users入り 20000users入り 30000users入り 40000users入り 50000users入り 100000users入り',
+  tagExistsFilter: '',
+
+  // 100users入り 200users入り 250users入り 300users入り 500users入り 1000users入り 2000users入り 3000users入り 5000users入り 10000users入り 20000users入り 30000users入り 40000users入り 50000users入り 100000users入り
 
   // 排除的关键词
-  tagNotExistsFilter: 'BL 腐 漫画 講座 刀剣乱 黒子 弱虫ペダル 世界一初恋 進撃の巨人 ハイキュー 銀魂 アザゼルさん',
+  tagNotExistsFilter: '',
+
+  // BL 腐 漫画 講座 刀剣乱 黒子 弱虫ペダル 世界一初恋 進撃の巨人 ハイキュー 銀魂 アザゼルさん
 
   // 搜索类别，0 1 illust 2 manga 3 ugoria
   type: 0,

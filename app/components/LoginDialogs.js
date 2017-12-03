@@ -40,6 +40,7 @@ class LoginDialogs extends Component {
               <TextField
                 label={title.loginDialogs.password}
                 value={login.password}
+                type="password"
                 onChange={(event) => loginChange('password', event.target.value)}
                 className={classes.textField}
               />

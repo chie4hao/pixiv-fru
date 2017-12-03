@@ -83,7 +83,7 @@ function* login(action) {
       loginChange('PHPSESSID', a),
       snackbarsOpen(`登录成功，获得PHPSESSID：${a}`),
       loginChange('open', false),
-      downloadSettingsChange('PHPSESSID', '')
+      downloadSettingsChange('PHPSESSID', a)
     ]));
   } catch (e) {
     yield put(snackbarsOpen(e.message));
