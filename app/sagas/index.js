@@ -1,4 +1,4 @@
-import { all, call, put, takeLatest, take } from 'redux-saga/effects';
+import { all, call, put, takeLatest, take, cancel, fork } from 'redux-saga/effects';
 import { batchActions } from 'redux-batched-actions';
 import $ from 'cheerio';
 import HttpsProxyAgent from 'https-proxy-agent';
@@ -12,11 +12,16 @@ import pixivLogin from '../utils/pixiv/login';
 
 import { getState } from '../store';
 
-
 function snackbarsOpen(message) {
   return {
     type: 'HomePage/snackbars/open',
     message
+  };
+}
+
+function snackbarsClose() {
+  return {
+    type: 'HomePage/snackbars/close'
   };
 }
 
@@ -52,13 +57,6 @@ function downloadResultChange(param, value) {
   };
 }
 
-function downloadResultObjectChange(value) {
-  return {
-    type: 'HomePage/downloadResult/objectChange',
-    value
-  };
-}
-
 function downloadResultAddData(value, error) {
   return {
     type: 'HomePage/downloadResult/addData',
@@ -75,18 +73,63 @@ function downloadResultSearchOnePage(totalIncrease, searchIncrease) {
   };
 }
 
+const delay = time => new Promise(resolve => {
+  setTimeout(() => {
+    resolve();
+  }, time);
+});
+
+function* snackbarsAnimate(text) {
+  let i = 0;
+  while (true) {
+    yield put(snackbarsOpen(`${text}${'.'.repeat(i)}`));
+    yield call(delay, 300);
+    i = (i + 1) % 6;
+  }
+}
+
+function* snackbarsDelayClose() {
+  yield call(delay, 4e3);
+  yield put(snackbarsClose());
+}
+
+const snackbarsDelay = (() => {
+  let lastTime = Date.now();
+  let task;
+  return function* (text) {
+    const now = Date.now();
+    if (now - lastTime < 4e3 && task) {
+      yield cancel(task);
+    }
+    lastTime = Date.now();
+    yield put(snackbarsOpen(`${text}`));
+    task = yield call(snackbarsDelayClose);
+  };
+})();
+
 function* login(action) {
+  let loginTask;
   try {
+    loginTask = yield fork(snackbarsAnimate, '登录中');
     const a = yield call(pixivLogin, action.username, action.password);
-    console.log(a);
+
+    if (loginTask) {
+      yield cancel(loginTask);
+    }
+
+    yield fork(snackbarsDelay, `登录成功，获得PHPSESSID：${a}`);
+
     yield put(batchActions([
       loginChange('PHPSESSID', a),
-      snackbarsOpen(`登录成功，获得PHPSESSID：${a}`),
+      // snackbarsOpen(`登录成功，获得PHPSESSID：${a}`),
       loginChange('open', false),
       downloadSettingsChange('PHPSESSID', a)
     ]));
   } catch (e) {
-    yield put(snackbarsOpen(e.message));
+    if (loginTask) {
+      yield cancel(loginTask);
+    }
+    yield fork(snackbarsDelay, e.message);
   }
 }
 
@@ -142,15 +185,33 @@ function* downloadAuthor(page) {
 }
 
 function* search(action) {
+  let searchTask;
+  let imageCount;
   if (action.searchOptions.type === 'string' || action.searchOptions.type === 'number') {
     const ds = new DownloadSearch(action.searchOptions);
-    let imageCount = yield call([ds, ds.fetchImageCount]);
-    yield put(batchActions([snackbarsOpen(imageCount), downloadProcessChange('open', true)]));
+    try {
+      searchTask = yield fork(snackbarsAnimate, '搜索中');
+
+      imageCount = yield call([ds, ds.fetchImageCount]);
+      if (searchTask) {
+        yield cancel(searchTask);
+      }
+      yield fork(snackbarsDelay, `共找到图片${imageCount}个`);
+      // yield put(batchActions([snackbarsOpen(imageCount), downloadProcessChange('open', true)]));
+      yield put(downloadProcessChange('open', true));
+    } catch (e) {
+      if (searchTask) {
+        yield cancel(searchTask);
+      }
+      yield fork(snackbarsDelay, e.message);
+    }
 
     yield take('saga_allDownload');
 
+    yield put(downloadResultChange('open', false));
+
     imageCount = Math.min(imageCount, 40000);
-    yield put({ type: 'HomePage/downloadResult/begin', processLength: imageCount });
+    yield put(batchActions([downloadResultChange('open', true), { type: 'HomePage/downloadResult/begin', processLength: imageCount }]));
 
     if (action.searchOptions.type === 'string') {
       yield all(Array.from({

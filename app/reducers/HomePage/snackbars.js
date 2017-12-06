@@ -13,7 +13,7 @@ export default function snackbars(state = initialState, action) {
     case 'HomePage/snackbars/close':
       return {
         open: false,
-        massage: ''
+        massage: state.message
       };
     default:
       return state;

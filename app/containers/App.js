@@ -88,14 +88,14 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
             horizontal: 'center',
           }}
           open={snackbars.open}
-          autoHideDuration={4e3}
+          // autoHideDuration={4e3}
           onRequestClose={snackbarsClose}
           transition={Fade}
           SnackbarContentProps={{
             'aria-describedby': 'message-id',
           }}
           message={<span id="message-id">{snackbars.message}</span>}
-          action={[
+          /* action={[
             <IconButton
               key="close"
               aria-label="Close"
@@ -104,7 +104,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(class App extends Co
             >
               <Icon className="fa fa-close" />
             </IconButton>
-          ]}
+          ]} */
         />
         <SettingsDrawer
           open={this.state.settingDrawerOpen}
