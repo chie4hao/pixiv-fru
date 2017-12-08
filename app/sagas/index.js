@@ -225,8 +225,15 @@ function* search(action) {
 
     yield put({ type: 'HomePage/downloadResult/end' });
   } else if (action.searchOptions.type === 'illustId') {
-    const a = yield call(illustIdToOriginal, action.searchOptions.text);
-    yield put(snackbarsOpen(JSON.stringify(a)));
+    try {
+      let a = yield call(illustIdToOriginal, action.searchOptions.text);
+      if (a === {}) {
+        a = '未找到图片';
+      }
+      yield put(snackbarsOpen(JSON.stringify(a)));
+    } catch (e) {
+      yield put(snackbarsOpen(e.message));
+    }
   }
 }
 

@@ -15,9 +15,13 @@ const illustIdOriginal = async (illustId) => {
 
   const wrapper = $('#wrapper', illustIdPage);
 
+  if ($('.error-message', wrapper)[0] !== undefined) {
+    throw new Error('未找到图片');
+  }
+
   const worksDisplay = $('.works_display', wrapper);
 
-  if ($('img', worksDisplay).length === 0) throw new Error('Not Logged In');
+  if ($('img', worksDisplay).length === 0) throw new Error('未登录或未找到图片');
 
   const name = $('.title', wrapper)[0].children[0].data;
 
