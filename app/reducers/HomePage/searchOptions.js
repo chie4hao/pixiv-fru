@@ -1,5 +1,5 @@
 export const initialState = {
-  text: '東方',
+  text: '',
   type: 'string'
 };
 

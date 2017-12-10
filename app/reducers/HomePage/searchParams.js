@@ -3,7 +3,7 @@ export const initialState = {
 
   // 包含其中任意一个关键词
   // tagExistsFilter: [],
-  tagExistsFilter: '',
+  tagExistsFilter: '100users入り 200users入り 250users入り 300users入り 500users入り 1000users入り 2000users入り 3000users入り 5000users入り 10000users入り 20000users入り 30000users入り 40000users入り 50000users入り 100000users入り',
 
   // 100users入り 200users入り 250users入り 300users入り 500users入り 1000users入り 2000users入り 3000users入り 5000users入り 10000users入り 20000users入り 30000users入り 40000users入り 50000users入り 100000users入り
 
