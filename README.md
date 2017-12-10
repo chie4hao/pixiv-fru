@@ -1,2 +1,18 @@
 # pixiv-fru
-#### 施工中，最近有其他项目，估计得以后填坑了，不过底层api已写好可供参考
+
+
+## Release Downloads
+
+[GitHub release](https://github.com/chie4hao/pixiv-fru/releases).
+
+[baiduYun](https://pan.baidu.com/s/1jHFPQlg)       (password: d4x1)
+
+## Based on
+
++ [Electron](https://github.com/atom/electron)
++ [React](https://github.com/facebook/react)
++ [material-ui](https://github.com/mui-org/material-ui)
++ [Redux](https://github.com/reactjs/redux)
+
+## License
+[The MIT License](https://github.com/chie4hao/pixiv-fru/blob/master/LICENSE)
