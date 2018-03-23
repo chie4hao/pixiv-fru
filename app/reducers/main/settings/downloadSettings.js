@@ -20,8 +20,8 @@ export const initialState = {
   minimumBookmark: 0,
 
     // 最大并行原画请求数量和Html请求数量,网速好可以适当调高一点,太高可能会被封IP？
-  OriginalGetCount: 9,
-  HtmlGetCount: 6,
+  OriginalGetCount: 7,
+  HtmlGetCount: 2,
 
     // 请求超时时间(ms)
   htmlGetTimeout: 30000,
